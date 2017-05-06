@@ -37,15 +37,264 @@
 
 
     <LinearLayout
-        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_play"
-            android:text="Play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--radio streaming-->
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:paddingTop="10dp"
+                android:text="Radio Streaming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/black_70"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"/>
+
+            <!--one item-->
+            <LinearLayout
+                android:id="@+id/rhm_radio"
+                android:clickable="true"
+                android:weightSum="5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/rhm"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_rhm"
+                    android:paddingLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="RHM FM 95.7 MHz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ic_rhm"
+                        android:src="@drawable/ic_headphone_org"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--two item-->
+            <LinearLayout
+                android:id="@+id/hm_radio"
+                android:clickable="true"
+                android:weightSum="5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/hm"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/imageView2" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_hm"
+                    android:paddingLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="HM FM 104.5 MHz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ic_hm"
+                        android:src="@drawable/ic_headphone_org"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--tv streaming-->
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:paddingTop="10dp"
+                android:text="Radio Streaming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/black_70"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"/>
+
+            <!--one item-->
+            <LinearLayout
+                android:id="@+id/hm_tv"
+                android:clickable="true"
+                android:weightSum="5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <!--icon_tv-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/hm"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+
+                </LinearLayout>
+
+                <!--Channel name-->
+                <TextView
+                    android:id="@+id/txt_hm_tv"
+                    android:paddingLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="HM TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!--icon-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ic_hm_tv"
+                        android:src="@drawable/ic_tv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:visibility="invisible"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/player_bar"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <!--icon_tv-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ic_playerbar"
+                        android:src="@drawable/hm"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                </LinearLayout>
+
+                <!--Channel name-->
+                <TextView
+                    android:id="@+id/txt_playerbar"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="HM TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!--icon-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/ic_audio"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

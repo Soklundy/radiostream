@@ -1,0 +1,38 @@
+package com.android.rhm.radiostream.utils;
+
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.android.rhm.radiostream.R;
+
+/**
+ * Created by soklundy on 5/6/2017.
+ */
+
+public class LoadingDialog {
+    private Dialog dialog;
+    private Context mContext;
+
+    public LoadingDialog (Context context) {
+        mContext = context;
+    }
+
+    public void loading () {
+        dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.alert_progress);
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+    }
+
+    public void closeLoad() {
+        dialog.dismiss();
+    }
+}
