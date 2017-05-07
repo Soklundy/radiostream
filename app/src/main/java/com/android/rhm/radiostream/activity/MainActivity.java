@@ -1,9 +1,12 @@
 package com.android.rhm.radiostream.activity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +32,7 @@ import android.widget.Toast;
 import com.android.rhm.radiostream.R;
 import com.android.rhm.radiostream.services.ServiceMusic;
 import com.android.rhm.radiostream.utils.CheckServices;
+import com.android.rhm.radiostream.utils.Constants;
 import com.android.rhm.radiostream.utils.LoadingDialog;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -61,6 +66,13 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.ic_playerbar) ImageView icPlayerBar;
     private LoadingDialog loadingDialog;
 
+    private final BroadcastReceiver finishFromOther = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         loadingDialog = new LoadingDialog(this);
+        registerReceiver(finishFromOther, new IntentFilter("key_close"));
 
         hmRadio.setOnTouchListener(this);
         hmTv.setOnTouchListener(this);
@@ -183,13 +196,24 @@ public class MainActivity extends AppCompatActivity
 
         loadingDialog.loading();
         if (mLocalBind == null) {
-            Intent intent = new Intent(this, ServiceMusic.class);
-            intent.putExtra("fm_url", url);
-            bindService(intent, mServiceConnect, BIND_AUTO_CREATE);
-            startService(intent);
-        }else {
+            if (new CheckServices().isMyServiceRunning(ServiceMusic.class, this)) {
+                stopService(new Intent(this, ServiceMusic.class));
+            }
+            startStart(url);
+
+        } else {
             mLocalBind.playFm(url);
+            Log.e("test_service", "mlocalBind!=null_work");
         }
+    }
+
+    private void startStart(String url) {
+        Intent intent = new Intent(this, ServiceMusic.class);
+        intent.putExtra("fm_url", url);
+        intent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        bindService(intent, mServiceConnect, BIND_AUTO_CREATE);
+        startService(intent);
+        Log.e("test_service", "mlocalBind=null_work");
     }
 
     @OnClick(R.id.hm_tv)
@@ -252,6 +276,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(finishFromOther);
         if (isBind == true) {
             unbindService(mServiceConnect);
         }
