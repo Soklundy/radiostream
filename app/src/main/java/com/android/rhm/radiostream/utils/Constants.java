@@ -3,6 +3,7 @@ package com.android.rhm.radiostream.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.SeekBar;
 
 /**
  * Created by soklundy on 5/7/2017.
@@ -11,9 +12,11 @@ import android.graphics.BitmapFactory;
 public class Constants {
 
     public static final String TITLESTATUS = "com.android.rhm.radiostream.title";
+    public static final String CHHANELNAME = "com.android.rhm.radiostream.chhanelname";
+    public static final String CHHANELNUM = "com.android.rhm.radiostream.chhanelnumber";
 
-    public interface ACTION {
-        public static String INTENTCONTENT = "com.android.rhm.radiostream.intentcontant";
+    public static class ACTION {
+        public static String INTENTCONTENT = "com.android.rhm.radiostream.intentcontantnew";
         public static String INIT_ACTION = "com.android.rhm.radiostream.init";
         public static String PREV_ACTION = "com.android.rhm.radiostream.prev";
         public static String PLAY_ACTION = "com.android.rhm.radiostream.play";
@@ -21,7 +24,6 @@ public class Constants {
         public static String NEXT_ACTION = "com.android.rhm.radiostream.next";
         public static String STARTFOREGROUND_ACTION = "com.android.rhm.radiostream.startforeground";
         public static String STOPFOREGROUND_ACTION = "com.android.rhm.radiostream.stopforeground";
-
     }
 
     public interface NOTIFICATION_ID {

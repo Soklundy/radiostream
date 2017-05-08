@@ -7,12 +7,14 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
@@ -42,10 +44,11 @@ import java.io.IOException;
  * Created by soklundy on 5/6/2017.
  */
 
-public class ServiceMusic extends Service {
+public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
     private RemoteViews views;
+    private Uri uri;
     private Notification status;
     private static  final int NOTIFICATION_ID = 100;
     private NotificationManager notificationmanager;
@@ -70,8 +73,8 @@ public class ServiceMusic extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
-                startPlay(intent.getStringExtra("fm_url"));
                 showNotification(intent.getStringExtra(Constants.TITLESTATUS));
+                startPlay(intent.getStringExtra("fm_url"));
             } else if (intent.getAction().equals(Constants.ACTION.PREV_ACTION)) {
                 Toast.makeText(this, "Clicked Previous", Toast.LENGTH_SHORT).show();
             } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
@@ -79,10 +82,10 @@ public class ServiceMusic extends Service {
             } else if (intent.getAction().equals(Constants.ACTION.PAUSE_PLAY_ACTION)) {
                 Toast.makeText(mContext, "stop/play", Toast.LENGTH_SHORT).show();
                 if (isPlaying()) {
-                    exoPlayer.setPlayWhenReady(false);
+                    pause();
                     changeControlIconNotification(R.drawable.ic_play);
                 }else {
-                    exoPlayer.setPlayWhenReady(true);
+                    play();
                     changeControlIconNotification(R.drawable.ic_pause);
                 }
             } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
@@ -98,6 +101,7 @@ public class ServiceMusic extends Service {
                 notificationmanager.cancel(NOTIFICATION_ID);
                 sendBroadcast(new Intent("key_close"));
                 closeStatusBar();
+
             }else if (intent.getAction().equals(Constants.ACTION.INTENTCONTENT)) {
                 Toast.makeText(this, "intent", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
@@ -142,18 +146,26 @@ public class ServiceMusic extends Service {
 
     public class LocalBind extends Binder {
 
-        public void stopRadio () {
-
-        }
-
         public void playFm(String url, String channelName) {
-            Uri uri = Uri.parse(url);
+            uri = Uri.parse(url);
             if (exoPlayer != null) {
                 MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
                         mHandler, null);
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
                 changeTextNIconControlNotification(channelName, R.drawable.ic_pause);
+            }
+        }
+
+        public void exoPlayerPlay() {
+            if (isPlaying() == false){
+                play();
+            }
+        }
+
+        public void exoPlayerPause() {
+            if (isPlaying() == true) {
+                pause();
             }
         }
 
@@ -167,7 +179,7 @@ public class ServiceMusic extends Service {
     }
 
     private void startPlay(String url) {
-        Uri uri = Uri.parse(url);
+        uri = Uri.parse(url);
         if (!isPlaying()) {
             MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
                     mHandler, null);
@@ -175,16 +187,8 @@ public class ServiceMusic extends Service {
             DefaultLoadControl loadControl = new DefaultLoadControl();
             exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
             exoPlayer.prepare(mediaSource);
+            exoPlayer.addListener(this);
             exoPlayer.setPlayWhenReady(true);
-        }
-    }
-
-    private void stopPlay() {
-        if (isPlaying() != true) {
-            exoPlayer.stop();
-            exoPlayer.seekTo(0);
-            exoPlayer.release();
-            exoPlayer = null;
         }
     }
 
@@ -229,9 +233,51 @@ public class ServiceMusic extends Service {
         mContext.sendBroadcast(it);
     }
 
+    private void pause() {
+        exoPlayer.setPlayWhenReady(false);
+    }
+
+    private void play() {
+        exoPlayer.setPlayWhenReady(true);
+    }
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         notificationmanager.cancel(NOTIFICATION_ID);
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+        Toast.makeText(mContext, isLoading+"", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        try {
+            if (playWhenReady == true) {
+                changeControlIconNotification(R.drawable.ic_pause);
+            }else {
+                changeControlIconNotification(R.drawable.ic_play);
+            }
+        }catch (NullPointerException e) {
+
+        }
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+        changeControlIconNotification(R.drawable.ic_play);
+        exoPlayer.setPlayWhenReady(false);
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
+        Toast.makeText(mContext, "onPositionDiscontinuity", Toast.LENGTH_SHORT).show();
     }
 }

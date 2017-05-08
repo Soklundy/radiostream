@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
 
     private ServiceMusic.LocalBind mLocalBind;
     private boolean isBind = false;
+    private String channelName;
 
     @BindView(R.id.hm_tv) LinearLayout hmTv;
     @BindView(R.id.hm_radio) LinearLayout hmRadio;
@@ -190,7 +191,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        String channelName = "";
         String url = "";
         switch (v.getId()) {
             case R.id.hm_radio:
@@ -280,7 +280,6 @@ public class MainActivity extends AppCompatActivity
                                 }
                             })
                             .show();
-                    mLocalBind.stopRadio();
                     loadingDialog.closeLoad();
                 }
 
@@ -297,6 +296,12 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    @OnClick(R.id.player_bar)
+    public void playerBarOnClick() {
+        Intent intent = new Intent(this, RadioDetail.class);
+        intent.putExtra(Constants.CHHANELNAME, channelName);
+        startActivity(intent);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
