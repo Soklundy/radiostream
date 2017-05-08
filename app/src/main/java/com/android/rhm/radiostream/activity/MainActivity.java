@@ -9,6 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
@@ -19,6 +24,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -143,11 +149,21 @@ public class MainActivity extends AppCompatActivity
                     rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
                     icRhm.setImageResource(R.drawable.ic_headphone_white);
+
+                    /*un hightlight hm*/
+                    hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
+                    icHm.setImageResource(R.drawable.ic_headphone_org);
                     break;
                 case R.id.hm_radio:
                     hmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
                     icHm.setImageResource(R.drawable.ic_headphone_white);
+
+                    /*un hightlight hm*/
+                    rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
+                    icRhm.setImageResource(R.drawable.ic_headphone_org);
                     break;
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -157,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                     txtHmTv.setTextColor(getResources().getColor(R.color.defult_textview));
                     icHmTv.setImageResource(R.drawable.ic_tv);
                     break;
-                case R.id.rhm_radio:
+                /*case R.id.rhm_radio:
                     rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
                     txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
                     icRhm.setImageResource(R.drawable.ic_headphone_org);
@@ -166,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                     hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
                     txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
                     icHm.setImageResource(R.drawable.ic_headphone_org);
-                    break;
+                    break;*/
             }
         }
         return false;
@@ -181,45 +197,53 @@ public class MainActivity extends AppCompatActivity
                 channelName = txtHm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.hm);
                 url = "http://111.92.240.134:89/broadwavehigh.mp3";
+                hmRadio.setEnabled(false);
+                rhmRadio.setEnabled(true);
                 break;
             case R.id.rhm_radio:
                 channelName = txtRhm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.rhm);
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";
+                rhmRadio.setEnabled(false);
+                hmRadio.setEnabled(true);
                 break;
         }
-        txtPlayerBar.setText(channelName);
-        playerbar.setVisibility(View.VISIBLE);
-        if (playerbar.getVisibility() == View.INVISIBLE){
-            playerbar.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up));
-        }
-
+        hideShowStatusBar(channelName);
         loadingDialog.loading();
         if (mLocalBind == null) {
             if (new CheckServices().isMyServiceRunning(ServiceMusic.class, this)) {
                 stopService(new Intent(this, ServiceMusic.class));
             }
-            startStart(url);
+            startStart(url, channelName);
 
         } else {
-            mLocalBind.playFm(url);
+            mLocalBind.playFm(url, channelName);
             Log.e("test_service", "mlocalBind!=null_work");
         }
-    }
-
-    private void startStart(String url) {
-        Intent intent = new Intent(this, ServiceMusic.class);
-        intent.putExtra("fm_url", url);
-        intent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-        bindService(intent, mServiceConnect, BIND_AUTO_CREATE);
-        startService(intent);
-        Log.e("test_service", "mlocalBind=null_work");
     }
 
     @OnClick(R.id.hm_tv)
     public void hmTvOnclick() {
         Toast.makeText(this, "coming soon", Toast.LENGTH_SHORT).show();
         playerbar.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideShowStatusBar(String channelName) {
+        txtPlayerBar.setText(channelName);
+        playerbar.setVisibility(View.VISIBLE);
+        if (playerbar.getVisibility() == View.INVISIBLE){
+            playerbar.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up));
+        }
+    }
+
+    private void startStart(String url, String ch) {
+        Intent intent = new Intent(this, ServiceMusic.class);
+        intent.putExtra("fm_url", url);
+        intent.putExtra(Constants.TITLESTATUS, ch);
+        intent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        bindService(intent, mServiceConnect, BIND_AUTO_CREATE);
+        startService(intent);
+        Log.e("test_service", "mlocalBind=null_work");
     }
 
     private ServiceConnection mServiceConnect = new ServiceConnection() {
@@ -280,5 +304,15 @@ public class MainActivity extends AppCompatActivity
         if (isBind == true) {
             unbindService(mServiceConnect);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                moveTaskToBack(true);
+                return true;
+        }
+        return false;
     }
 }

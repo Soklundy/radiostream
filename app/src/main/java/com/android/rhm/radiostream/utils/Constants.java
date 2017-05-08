@@ -10,8 +10,10 @@ import android.graphics.BitmapFactory;
 
 public class Constants {
 
+    public static final String TITLESTATUS = "com.android.rhm.radiostream.title";
+
     public interface ACTION {
-        public static String INTENTCONTENT = "com.android.rhm.radiostream.main";
+        public static String INTENTCONTENT = "com.android.rhm.radiostream.intentcontant";
         public static String INIT_ACTION = "com.android.rhm.radiostream.init";
         public static String PREV_ACTION = "com.android.rhm.radiostream.prev";
         public static String PLAY_ACTION = "com.android.rhm.radiostream.play";
@@ -23,7 +25,7 @@ public class Constants {
     }
 
     public interface NOTIFICATION_ID {
-        public static int FOREGROUND_SERVICE = 101;
+        public static int FOREGROUND_SERVICE = 1;
     }
 
     public static Bitmap getImage(Context context, int resourceDrawableImage) {

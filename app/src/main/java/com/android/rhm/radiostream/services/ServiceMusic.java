@@ -2,6 +2,7 @@ package com.android.rhm.radiostream.services;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -46,6 +47,8 @@ public class ServiceMusic extends Service {
     private static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
     private RemoteViews views;
     private Notification status;
+    private static  final int NOTIFICATION_ID = 100;
+    private NotificationManager notificationmanager;
     private Handler mHandler = new Handler();
     private IBinder mBinder = new LocalBind();
     private ExoPlayer exoPlayer;
@@ -67,16 +70,20 @@ public class ServiceMusic extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
-                showNotification();
                 startPlay(intent.getStringExtra("fm_url"));
+                showNotification(intent.getStringExtra(Constants.TITLESTATUS));
             } else if (intent.getAction().equals(Constants.ACTION.PREV_ACTION)) {
                 Toast.makeText(this, "Clicked Previous", Toast.LENGTH_SHORT).show();
             } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
                 Toast.makeText(this, "Clicked Next", Toast.LENGTH_SHORT).show();
             } else if (intent.getAction().equals(Constants.ACTION.PAUSE_PLAY_ACTION)) {
-                Toast.makeText(mContext, "Pause/play", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "stop/play", Toast.LENGTH_SHORT).show();
                 if (isPlaying()) {
                     exoPlayer.setPlayWhenReady(false);
+                    changeControlIconNotification(R.drawable.ic_play);
+                }else {
+                    exoPlayer.setPlayWhenReady(true);
+                    changeControlIconNotification(R.drawable.ic_pause);
                 }
             } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
                 Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();
@@ -88,13 +95,13 @@ public class ServiceMusic extends Service {
                     mBinder = null;
                 }
                 stopService(new Intent(this, ServiceMusic.class));
-                stopForeground(true);
+                notificationmanager.cancel(NOTIFICATION_ID);
                 sendBroadcast(new Intent("key_close"));
                 closeStatusBar();
             }else if (intent.getAction().equals(Constants.ACTION.INTENTCONTENT)) {
-                Toast.makeText(mContext, "intent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "intent", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
-                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(dialogIntent);
                 closeStatusBar();
             }
@@ -102,6 +109,19 @@ public class ServiceMusic extends Service {
 
         }
         return START_STICKY;
+    }
+
+    private void changeControlIconNotification(int resourceId) {
+        views.setImageViewResource(R.id.ic_image, resourceId);
+        status.contentView = views;
+        notificationmanager.notify(NOTIFICATION_ID, status);
+    }
+
+    private void changeTextNIconControlNotification(String text, int resourceId) {
+        views.setTextViewText(R.id.txt_status, text);
+        views.setImageViewResource(R.id.ic_image, resourceId);
+        status.contentView = views;
+        notificationmanager.notify(NOTIFICATION_ID, status);
     }
 
     @Override
@@ -126,13 +146,14 @@ public class ServiceMusic extends Service {
 
         }
 
-        public void playFm(String url) {
+        public void playFm(String url, String channelName) {
             Uri uri = Uri.parse(url);
             if (exoPlayer != null) {
                 MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
                         mHandler, null);
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
+                changeTextNIconControlNotification(channelName, R.drawable.ic_pause);
             }
         }
 
@@ -147,13 +168,15 @@ public class ServiceMusic extends Service {
 
     private void startPlay(String url) {
         Uri uri = Uri.parse(url);
-        MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
-                mHandler, null);
-        TrackSelector trackSelector = new DefaultTrackSelector(mHandler);
-        DefaultLoadControl loadControl = new DefaultLoadControl();
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-        exoPlayer.prepare(mediaSource);
-        exoPlayer.setPlayWhenReady(true);
+        if (!isPlaying()) {
+            MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
+                    mHandler, null);
+            TrackSelector trackSelector = new DefaultTrackSelector(mHandler);
+            DefaultLoadControl loadControl = new DefaultLoadControl();
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+            exoPlayer.prepare(mediaSource);
+            exoPlayer.setPlayWhenReady(true);
+        }
     }
 
     private void stopPlay() {
@@ -165,7 +188,7 @@ public class ServiceMusic extends Service {
         }
     }
 
-    private void showNotification() {
+    private void showNotification(String title) {
         // showing default album image
         /*views.setImageViewBitmap(R.id.status_bar_album_art,
                 Constants.getDefaultAlbumArt(this));*/
@@ -189,15 +212,16 @@ public class ServiceMusic extends Service {
         /*views.setImageViewResource(R.id.status_bar_play,
                 R.drawable.apollo_holo_dark_pause);*/
 
-        views.setTextViewText(R.id.txt_status, "Song Title");
-        views.setImageViewResource(R.id.ic_image, R.drawable.ic_play);
+        views.setTextViewText(R.id.txt_status, title);
+        views.setImageViewResource(R.id.ic_image, R.drawable.ic_pause);
 
         status = new Notification.Builder(this).build();
         status.contentView = views;
         status.flags = Notification.FLAG_ONGOING_EVENT;
         status.icon = R.drawable.cricle_hm;
         status.contentIntent = pendingIntent;
-        startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
+        notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationmanager.notify(NOTIFICATION_ID, status);
     }
 
     private void closeStatusBar() {
@@ -205,4 +229,9 @@ public class ServiceMusic extends Service {
         mContext.sendBroadcast(it);
     }
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        notificationmanager.cancel(NOTIFICATION_ID);
+    }
 }
