@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, ServiceMusic.class);
         intent.putExtra("fm_url", url);
         intent.putExtra(Constants.TITLESTATUS, ch);
-        intent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        intent.setAction(Constants.STARTFOREGROUND_ACTION);
         bindService(intent, mServiceConnect, BIND_AUTO_CREATE);
         startService(intent);
         Log.e("test_service", "mlocalBind=null_work");

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
@@ -51,6 +52,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private Uri uri;
     private Notification status;
     private static  final int NOTIFICATION_ID = 100;
+    private LoadingDialog loadingDialog;
     private NotificationManager notificationmanager;
     private Handler mHandler = new Handler();
     private IBinder mBinder = new LocalBind();
@@ -72,14 +74,14 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
+            if (intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
                 showNotification(intent.getStringExtra(Constants.TITLESTATUS));
                 startPlay(intent.getStringExtra("fm_url"));
-            } else if (intent.getAction().equals(Constants.ACTION.PREV_ACTION)) {
+            } else if (intent.getAction().equals(Constants.PREV_ACTION)) {
                 Toast.makeText(this, "Clicked Previous", Toast.LENGTH_SHORT).show();
-            } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
+            } else if (intent.getAction().equals(Constants.NEXT_ACTION)) {
                 Toast.makeText(this, "Clicked Next", Toast.LENGTH_SHORT).show();
-            } else if (intent.getAction().equals(Constants.ACTION.PAUSE_PLAY_ACTION)) {
+            } else if (intent.getAction().equals(Constants.PAUSE_PLAY_ACTION)) {
                 Toast.makeText(mContext, "stop/play", Toast.LENGTH_SHORT).show();
                 if (isPlaying()) {
                     pause();
@@ -88,7 +90,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                     play();
                     changeControlIconNotification(R.drawable.ic_pause);
                 }
-            } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
+            } else if (intent.getAction().equals(Constants.STOPFOREGROUND_ACTION)) {
                 Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();
                 if (exoPlayer != null) {
                     exoPlayer.stop();
@@ -102,7 +104,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 sendBroadcast(new Intent("key_close"));
                 closeStatusBar();
 
-            }else if (intent.getAction().equals(Constants.ACTION.INTENTCONTENT)) {
+            }else if (intent.getAction().equals(Constants.INTENTSHOW)) {
                 Toast.makeText(this, "intent", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -160,12 +162,16 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         public void exoPlayerPlay() {
             if (isPlaying() == false){
                 play();
+            }else {
+                Toast.makeText(mContext, "You are already play", Toast.LENGTH_SHORT).show();
             }
         }
 
         public void exoPlayerPause() {
             if (isPlaying() == true) {
                 pause();
+            }else {
+                Toast.makeText(mContext, "You are already pause", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -198,15 +204,15 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 Constants.getDefaultAlbumArt(this));*/
 
         Intent notificationIntent = new Intent(this, ServiceMusic.class);
-        notificationIntent.setAction(Constants.ACTION.INTENTCONTENT);
+        notificationIntent.setAction(Constants.INTENTSHOW);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, 0);
 
         Intent pauseNplay = new Intent(this, ServiceMusic.class);
-        pauseNplay.setAction(Constants.ACTION.PAUSE_PLAY_ACTION);
+        pauseNplay.setAction(Constants.PAUSE_PLAY_ACTION);
         PendingIntent pPauseNplayIntent = PendingIntent.getService(this, 0, pauseNplay, 0);
 
         Intent closeIntent = new Intent(this, ServiceMusic.class);
-        closeIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+        closeIntent.setAction(Constants.STOPFOREGROUND_ACTION);
         PendingIntent pCloseIntent = PendingIntent.getService(this, 0, closeIntent, 0);
 
         views.setOnClickPendingIntent(R.id.ic_image, pPauseNplayIntent);

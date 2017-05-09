@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -80,7 +81,6 @@ public class RadioDetail extends AppCompatActivity{
 
     @OnClick(R.id.img_play)
     public void btnPlay() {
-        loadingDialog.loading();
         mLocalBind.exoPlayerPlay();
     }
 
@@ -92,13 +92,14 @@ public class RadioDetail extends AppCompatActivity{
     private void initBlurBackGround() {
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.rhm);
-        Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap );
+        Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
         linearBackGround.setBackground(new BitmapDrawable(getResources(), blurredBitmap ));
     }
 
     private void bindTextWithData(String channelName) {
-        txtTitleFm.setText(splitChannelName(channelName, 0));
-        txtNumFm.setText(splitChannelName(channelName, 1) );
+        txtTitleFm.setText(splitChannelName(channelName, 0) + "STUDIO");
+        txtNumFm.setText(splitChannelName(channelName, 1) + splitChannelName(channelName, 2)
+                + splitChannelName(channelName, 3) + " MHz");
         if (channelName.contains("95")) {
             imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.rhm));
         }else {
@@ -189,7 +190,11 @@ public class RadioDetail extends AppCompatActivity{
                                 }
                             })
                             .show();
-                    loadingDialog.closeLoad();
+                    try {
+                        loadingDialog.closeLoad();
+                    }catch (NullPointerException e){
+
+                    }
                 }
 
                 @Override

@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="RHM FM STUDIO"
             android:textColor="@color/colorAccent"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,14 +48,14 @@
             android:layout_height="wrap_content"
             android:text="95.7 MHz"
             android:textColor="@color/colorAccent"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/img_channel"
             android:scaleType="centerCrop"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/rhm" />
 
@@ -104,11 +104,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="30dp"
             android:gravity="center">
 
             <ImageView
+                android:background="@drawable/bg_selector"
                 android:layout_marginRight="20dp"
                 android:id="@+id/img_play"
                 android:layout_width="30dp"
@@ -116,6 +117,7 @@
                 android:src="@drawable/ic_play" />
 
             <ImageView
+                android:background="@drawable/bg_selector"
                 android:id="@+id/img_pause"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
