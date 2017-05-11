@@ -126,9 +126,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_about) {
-            // Handle the camera action
+            startActivity(new Intent(MainActivity.this, AboutUs.class));
         } else if (id == R.id.nav_lang) {
 
+        }else if (id == R.id.nav_contact){
+            startActivity(new Intent(MainActivity.this, ContactUS.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
