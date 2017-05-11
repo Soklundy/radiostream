@@ -228,6 +228,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         status = new Notification.Builder(this).build();
         status.contentView = views;
         status.flags = Notification.FLAG_ONGOING_EVENT;
+        status.priority = Notification.PRIORITY_MIN;
         status.icon = R.drawable.cricle_hm;
         status.contentIntent = pendingIntent;
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
