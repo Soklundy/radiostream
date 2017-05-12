@@ -1,6 +1,7 @@
 package com.android.rhm.radiostream.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -33,10 +34,14 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +50,7 @@ import com.android.rhm.radiostream.services.ServiceMusic;
 import com.android.rhm.radiostream.utils.CheckServices;
 import com.android.rhm.radiostream.utils.Constants;
 import com.android.rhm.radiostream.utils.LoadingDialog;
+import com.android.rhm.radiostream.utils.MutiLanguage;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_about) {
             startActivity(new Intent(MainActivity.this, AboutUs.class));
         } else if (id == R.id.nav_lang) {
-
+            alertDiolag(this);
         }else if (id == R.id.nav_contact){
             startActivity(new Intent(MainActivity.this, ContactUS.class));
         }
@@ -360,5 +366,44 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
         }
+    }
+
+    private void alertDiolag(Context context){
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.alert_background));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.alert_dialog_activity_choose_lan);
+
+        RadioButton radioBtnEn = (RadioButton)dialog.findViewById(R.id.radio_english);
+        RadioButton radioBtnKm = (RadioButton)dialog.findViewById(R.id.radio_khmer);
+        RadioGroup radioGroup = (RadioGroup)dialog.findViewById(R.id.radio_group);
+
+        final MutiLanguage mutiLanguage = new MutiLanguage(this, this);
+        String lang = mutiLanguage.getLanguageCurrent();
+
+        if (lang.equals("en") || lang.isEmpty()) {
+            radioBtnEn.setChecked(true);
+        }else {
+            radioBtnKm.setChecked(true);
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radio_english) {
+                    mutiLanguage.setLanguage("en");
+                    dialog.dismiss();
+                }else {
+                    mutiLanguage.setLanguage("km");
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
     }
 }

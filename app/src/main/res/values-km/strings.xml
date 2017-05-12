@@ -4,8 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="sign_up_here"><u>Sign up here.</u></string>
+    <string name="action_settings">ការកំណត់</string>
+    <string name="sign_up_here"><u>ចុះឈ្មោះនៅទីនេះ។</u></string>
 
     <string name="para_contact_us">
         No, 132-134Eo, St. 182\n
@@ -16,20 +16,20 @@
         News Department : 023 721 516
     </string>
 
-    <string name="about_us">About US</string>
-    <string name="contact_us">Contact Us</string>
-    <string name="login">LOGIN</string>
-    <string name="user_name">User Name</string>
-    <string name="phnum">Phone Number</string>
-    <string name="memeber">Not a memeber yet?</string>
-    <string name="user">User:</string>
-    <string name="sign">SIGN UP</string>
-    <string name="gender">Gender</string>
-    <string name="dob">Date Of Birth</string>
-    <string name="Loading">Loading...</string>
-    <string name="radio_st">Radio Streaming</string>
-    <string name="video_st">Video Streaming</string>
-    <string name="lng">Language</string>
+    <string name="about_us">អំពី​ពួក​យើង</string>
+    <string name="contact_us">ទំនាក់ទំនង​ពួក​យើង</string>
+    <string name="login">ចូលប្រើប្រាស់</string>
+    <string name="user_name">ឈ្មោះ​អ្នកប្រើប្រាស់</string>
+    <string name="phnum">លេខទូរសព្ទ</string>
+    <string name="memeber">មិនទាន់ជាសមាជិក?</string>
+    <string name="user">អ្នក​ប្រើ</string>
+    <string name="sign">ចុះ​ឈ្មោះ</string>
+    <string name="gender">ភេទ</string>
+    <string name="dob">ថ្ងៃខែ​ឆ្នាំ​កំណើត</string>
+    <string name="Loading">កំពុង​ដំណើរការ...</string>
+    <string name="radio_st">ការផ្សាយបន្តផ្ទាល់វិទ្យុ</string>
+    <string name="video_st">ការផ្សាយបន្តផ្ទាល់</string>
+    <string name="lng">ភាសា</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>

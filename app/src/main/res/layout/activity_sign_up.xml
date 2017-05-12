@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_contact_us"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.android.rhm.radiostream.activity.SignUp">
+
+    <LinearLayout
+        android:paddingRight="15dp"
+        android:gravity="right|bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/ic_close"
+            android:src="@drawable/ic_cancel_48"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/hm_logo" />
+
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/sign"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--name-->
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_name"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="12dp"
+                android:hint="@string/user_name"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="7dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"/>
+
+        <!--gender-->
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_gender"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="12dp"
+                android:hint="@string/gender"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="7dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"/>
+
+        <!--phn-->
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_phone"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="12dp"
+                android:hint="@string/phnum"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="7dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"/>
+
+        <!--date-->
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_age"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <EditText
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="12dp"
+                android:hint="@string/dob"
+                android:background="@color/colorAccent"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="7dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"/>
+
+        <!--location-->
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_location"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <Spinner
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/sp_location"
+                android:touchscreenBlocksFocus="true"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="15dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"/>
+
+        <Button
+            android:background="@drawable/bg_selector"
+            android:textColor="@color/colorAccent"
+            android:text="@string/sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

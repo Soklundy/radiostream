@@ -51,7 +51,7 @@
 
             <TextView
                 android:paddingTop="10dp"
-                android:text="Radio Streaming"
+                android:text="@string/radio_st"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             
@@ -171,7 +171,7 @@
 
             <TextView
                 android:paddingTop="10dp"
-                android:text="Radio Streaming"
+                android:text="@string/video_st"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
