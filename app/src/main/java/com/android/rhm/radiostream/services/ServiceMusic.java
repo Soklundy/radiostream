@@ -159,6 +159,14 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
             }
         }
 
+        public boolean bindIsPlaying() {
+            return isPlaying();
+        }
+
+        public void dismissNotification() {
+            notificationmanager.cancel(NOTIFICATION_ID);
+        }
+
         public void exoPlayerPlay() {
             if (isPlaying() == false){
                 play();
@@ -224,6 +232,11 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
         views.setTextViewText(R.id.txt_status, title);
         views.setImageViewResource(R.id.ic_image, R.drawable.ic_pause);
+        if (title.contains("95")) {
+            views.setImageViewResource(R.id.img_logo, R.drawable.ic_97);
+        }else {
+            views.setImageViewResource(R.id.img_logo, R.drawable.ic_104);
+        }
 
         status = new Notification.Builder(this).build();
         status.contentView = views;

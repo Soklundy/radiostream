@@ -30,6 +30,9 @@
     <string name="radio_st">ការផ្សាយបន្តផ្ទាល់វិទ្យុ</string>
     <string name="video_st">ការផ្សាយបន្តផ្ទាល់</string>
     <string name="lng">ភាសា</string>
+    <string name="can_load">មិនអាចផ្ទុកកម្មវិធីវិទ្យុ</string>
+    <string name="check_inter">សូមពិនិត្យមើលការតភ្ជាប់អ៊ីធឺណិតរបស់អ្នក។</string>
+    <string name="stop_radio">សូមបញ្ឈប់វិទ្យុមុនពេលការផ្លាស់ប្តូរភាសា</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>

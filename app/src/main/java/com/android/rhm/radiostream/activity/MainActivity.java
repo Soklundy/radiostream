@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -55,7 +56,9 @@ import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -145,7 +148,22 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_about) {
             startActivity(new Intent(MainActivity.this, AboutUs.class));
         } else if (id == R.id.nav_lang) {
-            alertDiolag(this);
+            try {
+                if (mLocalBind.bindIsPlaying()) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setMessage(getResources().getString(R.string.stop_radio))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else {
+                    alertDiolag(this);
+                }
+            }catch (NullPointerException e) {
+                alertDiolag(this);
+            }
         }else if (id == R.id.nav_contact){
             startActivity(new Intent(MainActivity.this, ContactUS.class));
         }
@@ -214,14 +232,14 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.hm_radio:
                 channelName = txtHm.getText().toString();
-                icPlayerBar.setImageResource(R.drawable.hm);
+                icPlayerBar.setImageResource(R.drawable.ic_104);
                 url = "http://111.92.240.134:89/broadwavehigh.mp3";
                 hmRadio.setEnabled(false);
                 rhmRadio.setEnabled(true);
                 break;
             case R.id.rhm_radio:
                 channelName = txtRhm.getText().toString();
-                icPlayerBar.setImageResource(R.drawable.rhm);
+                icPlayerBar.setImageResource(R.drawable.ic_97);
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";
                 rhmRadio.setEnabled(false);
                 hmRadio.setEnabled(true);
@@ -243,8 +261,8 @@ public class MainActivity extends AppCompatActivity
 
     @OnClick(R.id.hm_tv)
     public void hmTvOnclick() {
-        Toast.makeText(this, "coming soon", Toast.LENGTH_SHORT).show();
-        playerbar.setVisibility(View.INVISIBLE);
+        startActivity(new Intent(this, VideoPlayerVLC.class));
+        /*playerbar.setVisibility(View.INVISIBLE);*/
     }
 
     private void hideShowStatusBar(String channelName) {
@@ -291,8 +309,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onPlayerError(ExoPlaybackException error) {
                     new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Can't loading radio")
-                            .setMessage("Please check your internet connection.")
+                            .setTitle(getResources().getString(R.string.can_load))
+                            .setMessage(getResources().getString(R.string.check_inter))
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -343,6 +361,7 @@ public class MainActivity extends AppCompatActivity
     private  void checkAndRequestPermissions() {
         String [] permissions=new String[]{
                 Manifest.permission.INTERNET,
+                Manifest.permission.WRITE_SETTINGS
         };
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String permission:permissions) {
@@ -394,9 +413,11 @@ public class MainActivity extends AppCompatActivity
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radio_english) {
                     mutiLanguage.setLanguage("en");
+                    restartDefultForChangeLang();
                     dialog.dismiss();
                 }else {
                     mutiLanguage.setLanguage("km");
+                    restartDefultForChangeLang();
                     dialog.dismiss();
                 }
             }
@@ -406,4 +427,15 @@ public class MainActivity extends AppCompatActivity
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         dialog.show();
     }
+
+    private void restartDefultForChangeLang() {
+        try {
+            stopService(new Intent(MainActivity.this, ServiceMusic.class));
+            mLocalBind.dismissNotification();
+        }catch (NullPointerException e){
+
+        }
+    }
+
+
 }

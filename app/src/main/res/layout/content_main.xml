@@ -79,7 +79,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/rhm"
+                        android:src="@drawable/ic_97"
                         android:layout_width="60dp"
                         android:layout_height="60dp" />
 
@@ -127,7 +127,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/hm"
+                        android:src="@drawable/ic_104"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:id="@+id/imageView2" />

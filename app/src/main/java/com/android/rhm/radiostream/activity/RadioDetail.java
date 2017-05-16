@@ -97,13 +97,13 @@ public class RadioDetail extends AppCompatActivity{
     }
 
     private void bindTextWithData(String channelName) {
-        txtTitleFm.setText(splitChannelName(channelName, 0) + "STUDIO");
+        txtTitleFm.setText(splitChannelName(channelName, 0) + "");
         txtNumFm.setText(splitChannelName(channelName, 1) + splitChannelName(channelName, 2)
                 + splitChannelName(channelName, 3) + " MHz");
         if (channelName.contains("95")) {
-            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.rhm));
+            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_97));
         }else {
-            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.hm));
+            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_104));
         }
     }
 
@@ -181,17 +181,17 @@ public class RadioDetail extends AppCompatActivity{
 
                 @Override
                 public void onPlayerError(ExoPlaybackException error) {
-                    new AlertDialog.Builder(RadioDetail.this)
-                            .setTitle("Can't loading radio")
-                            .setMessage("Please check your internet connection.")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
                     try {
-                        loadingDialog.closeLoad();
+                        new AlertDialog.Builder(RadioDetail.this)
+                                .setTitle("Can't loading radio")
+                                .setMessage("Please check your internet connection.")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                            loadingDialog.closeLoad();
                     }catch (NullPointerException e){
 
                     }

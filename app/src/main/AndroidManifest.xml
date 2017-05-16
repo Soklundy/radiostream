@@ -3,6 +3,7 @@
     package="com.android.rhm.radiostream">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".activity.ApplicationStartUp"
@@ -41,10 +42,14 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".activity.SignUp"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".activity.Login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"></activity>
-        <activity android:name=".activity.Login"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        </activity>
+        <activity
+            android:name=".activity.VideoPlayerVLC"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"></activity>
     </application>
 
 </manifest>
