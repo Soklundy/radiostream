@@ -33,6 +33,9 @@
     <string name="can_load">មិនអាចផ្ទុកកម្មវិធីវិទ្យុ</string>
     <string name="check_inter">សូមពិនិត្យមើលការតភ្ជាប់អ៊ីធឺណិតរបស់អ្នក។</string>
     <string name="stop_radio">សូមបញ្ឈប់វិទ្យុមុនពេលការផ្លាស់ប្តូរភាសា</string>
+    <string name="login_fail">ឈ្មោះអ្នកប្រើនិងពាក្យសម្ងាត់មិនត្រឹមត្រូវ</string>
+    <string name="register_fail">ឈ្មោះអ្នកប្រើនេះគឺបានចុះឈ្មោះរួចម្តងហើយ។</string>
+    <string name="virify_sign">សូមពិនិត្យមើលទិន្នន័យរបស់អ្នកម្តងទៀត។</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>
@@ -113,6 +116,12 @@
         <item>Stung Treng Province</item>
         <item>Svay Rieng Province</item>
         <item>Takéo Province</item>
+    </string-array>
+
+    <string-array name="arr_gender">
+        <item>Select your gender</item>
+        <item>Female</item>
+        <item>Male</item>
     </string-array>
 
 </resources>

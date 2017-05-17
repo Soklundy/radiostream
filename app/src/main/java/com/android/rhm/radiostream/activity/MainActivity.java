@@ -57,6 +57,8 @@ import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.txt_rhm) TextView txtRhm;
     @BindView(R.id.txt_hm_tv) TextView txtHmTv;
     @BindView(R.id.txt_playerbar) TextView txtPlayerBar;
+    /*@BindView(R.id.txt_username_header) TextView txtUserNameHeader;*/
 
     @BindView(R.id.ic_rhm) ImageView icRhm;
     @BindView(R.id.ic_hm) ImageView icHm;
@@ -117,6 +120,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        TextView textView = (TextView) view.findViewById(R.id.txt_username_header);
+        textView.setText(new SharedPreferencesFile(this,
+                SharedPreferencesFile.FILENAME).getStringSharedPreference(SharedPreferencesFile.USERNAME));
+
         ButterKnife.bind(this);
 
         loadingDialog = new LoadingDialog(this);

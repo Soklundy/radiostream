@@ -60,6 +60,7 @@
                 android:layout_height="30dp" />
 
             <EditText
+                android:id="@+id/ed_usr"
                 android:textColor="@color/colorPrimary"
                 android:background="@color/colorAccent"
                 android:layout_marginLeft="12dp"
@@ -88,14 +89,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
 
-            <EditText
-                android:textColor="@color/colorPrimary"
-                android:background="@color/colorAccent"
+            <Spinner
                 android:layout_marginLeft="12dp"
-                android:hint="@string/gender"
-                android:textColorHint="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:id="@+id/sp_gender"
+                android:touchscreenBlocksFocus="true"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -118,6 +119,8 @@
                 android:layout_height="30dp" />
 
             <EditText
+                android:id="@+id/ed_phone"
+                android:inputType="phone"
                 android:textColor="@color/colorPrimary"
                 android:background="@color/colorAccent"
                 android:layout_marginLeft="12dp"
@@ -146,10 +149,13 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
 
-            <EditText
+            <TextView
+                android:id="@+id/txt_dob"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="12dp"
                 android:hint="@string/dob"
+                android:gravity="center_vertical"
+                android:textSize="18dp"
                 android:background="@color/colorAccent"
                 android:textColorHint="@color/colorPrimary"
                 android:layout_width="match_parent"
@@ -193,6 +199,7 @@
             android:layout_height="0.8dp"/>
 
         <Button
+            android:id="@+id/btn_sign_up"
             android:background="@drawable/bg_selector"
             android:textColor="@color/colorAccent"
             android:text="@string/sign"

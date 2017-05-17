@@ -33,6 +33,9 @@
     <string name="can_load">Can\'t loading radio</string>
     <string name="check_inter">Please check your internet connection.</string>
     <string name="stop_radio">Please stop radio before change langauge.</string>
+    <string name="login_fail">Incorrect Username&amp;Password.</string>
+    <string name="register_fail">This username is already in use.</string>
+    <string name="virify_sign">Please check your information again.</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>
@@ -113,6 +116,12 @@
         <item>Stung Treng Province</item>
         <item>Svay Rieng Province</item>
         <item>Takéo Province</item>
+    </string-array>
+
+    <string-array name="arr_gender">
+        <item>Select your gender</item>
+        <item>Female</item>
+        <item>Male</item>
     </string-array>
 
 </resources>
