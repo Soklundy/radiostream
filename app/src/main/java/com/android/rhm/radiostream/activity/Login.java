@@ -47,6 +47,13 @@ public class Login extends AppCompatActivity {
         finish();
     }
 
+    @OnClick(R.id.txt_go_sign)
+    public void goSignUp() {
+        finish();
+        startActivity(new Intent(Login.this, SignUp.class));
+        this.overridePendingTransition(R.anim.fade_in, R.anim.fade_in);
+    }
+
     @OnClick(R.id.btn_login)
     public void login() {
         final LoadingDialog loadingDialog = new LoadingDialog(this);

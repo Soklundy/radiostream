@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.rhm.radiostream.R;
 import com.android.rhm.radiostream.utils.LoadingDialog;
+import com.android.rhm.radiostream.utils.MutiLanguage;
 
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
@@ -53,8 +54,8 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         setContentView(R.layout.activity_video_player);
 
         // Receive path to play from intent
-        /*mFilePath = "rtmp://111.92.240.134:1935/live/livestream";*/
-        mFilePath = "rtmp://111.92.240.134:80/live/livestream";
+        /*mFilePath = "rtmp://111.92.240.134:1935/live/livestream";"rtmp://111.92.240.134:80/live/livestream";*/
+        mFilePath = getIntent().getStringExtra("tv_url");
         loadingDialog = new LoadingDialog(this);
 
         mSurface = (SurfaceView) findViewById(R.id.surface);
@@ -183,7 +184,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         mSurface.getRootView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                /*if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     Display display = getWindowManager().getDefaultDisplay();
                     Point size = new Point();
                     display.getSize(size);
@@ -196,7 +197,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
                     } else {
 
                     }
-                }
+                }*/
 
                 return true;
             }
@@ -295,23 +296,5 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         // Handle errors with hardware acceleration
         this.releasePlayer();
         Toast.makeText(this, "Error with hardware acceleration", Toast.LENGTH_LONG).show();
-    }
-
-    private void postOne() {
-       /* Handler mHandler = new Handler();
-        String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
-        DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(
-                userAgent, null,
-                DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-                true);
-        Uri uri = Uri.parse("http://111.92.240.134:89/broadwavehigh.mp3");
-        MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
-                mHandler, null);
-        TrackSelector trackSelector = new DefaultTrackSelector(mHandler);
-        DefaultLoadControl loadControl = new DefaultLoadControl();
-        ExoPlayer exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-        exoPlayer.prepare(mediaSource);
-        exoPlayer.setPlayWhenReady(true);*/
     }
 }

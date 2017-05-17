@@ -27,8 +27,8 @@ public class LoadingDialog {
     public void loading () {
         dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.alert_progress);
         Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);

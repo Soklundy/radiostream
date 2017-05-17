@@ -77,19 +77,21 @@ public class MainActivity extends AppCompatActivity
     private String channelName;
 
     @BindView(R.id.hm_tv) LinearLayout hmTv;
+    @BindView(R.id.rhm_tv) LinearLayout rhmTv;
     @BindView(R.id.hm_radio) LinearLayout hmRadio;
     @BindView(R.id.rhm_radio) LinearLayout rhmRadio;
     @BindView(R.id.player_bar) LinearLayout playerbar;
 
     @BindView(R.id.txt_hm) TextView txtHm;
+    @BindView(R.id.txt_rhm_tv) TextView txtRhmTv;
     @BindView(R.id.txt_rhm) TextView txtRhm;
     @BindView(R.id.txt_hm_tv) TextView txtHmTv;
     @BindView(R.id.txt_playerbar) TextView txtPlayerBar;
-    /*@BindView(R.id.txt_username_header) TextView txtUserNameHeader;*/
 
     @BindView(R.id.ic_rhm) ImageView icRhm;
     @BindView(R.id.ic_hm) ImageView icHm;
     @BindView(R.id.ic_hm_tv) ImageView icHmTv;
+    @BindView(R.id.ic_rhm_tv) ImageView icRhmTv;
     @BindView(R.id.ic_playerbar) ImageView icPlayerBar;
     private LoadingDialog loadingDialog;
 
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity
         hmRadio.setOnTouchListener(this);
         hmTv.setOnTouchListener(this);
         rhmRadio.setOnTouchListener(this);
+        rhmTv.setOnTouchListener(this);
 
         hmRadio.setOnClickListener(this);
         rhmRadio.setOnClickListener(this);
@@ -192,6 +195,11 @@ public class MainActivity extends AppCompatActivity
                     txtHmTv.setTextColor(getResources().getColor(R.color.colorPrimary));
                     icHmTv.setImageResource(R.drawable.ic_tv_white);
                     break;
+                case R.id.rhm_tv:
+                    rhmTv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    txtRhmTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    icRhmTv.setImageResource(R.drawable.ic_tv_white);
+                    break;
                 case R.id.rhm_radio:
                     rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -219,6 +227,11 @@ public class MainActivity extends AppCompatActivity
                     hmTv.setBackgroundColor(getResources().getColor(R.color.transparent));
                     txtHmTv.setTextColor(getResources().getColor(R.color.defult_textview));
                     icHmTv.setImageResource(R.drawable.ic_tv);
+                    break;
+                case R.id.rhm_tv:
+                    rhmTv.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    txtRhmTv.setTextColor(getResources().getColor(R.color.defult_textview));
+                    icRhmTv.setImageResource(R.drawable.ic_tv);
                     break;
                 /*case R.id.rhm_radio:
                     rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -270,8 +283,16 @@ public class MainActivity extends AppCompatActivity
 
     @OnClick(R.id.hm_tv)
     public void hmTvOnclick() {
-        startActivity(new Intent(this, VideoPlayerVLC.class));
-        /*playerbar.setVisibility(View.INVISIBLE);*/
+        Intent intent = new Intent(this, VideoPlayerVLC.class);
+        intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.rhm_tv)
+    public void rHmTvOnclick() {
+        Intent intent = new Intent(this, VideoPlayerVLC.class);
+        intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");
+        startActivity(intent);
     }
 
     private void hideShowStatusBar(String channelName) {
@@ -369,8 +390,7 @@ public class MainActivity extends AppCompatActivity
 
     private  void checkAndRequestPermissions() {
         String [] permissions=new String[]{
-                Manifest.permission.INTERNET,
-                Manifest.permission.WRITE_SETTINGS
+                Manifest.permission.INTERNET
         };
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String permission:permissions) {
