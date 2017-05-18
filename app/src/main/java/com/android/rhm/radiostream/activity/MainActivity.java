@@ -314,10 +314,13 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.hm_tv)
     public void hmTvOnclick() {
         if (isConnect == true) {
-            mLocalBind.exoPlayerPause();
+            if (mLocalBind != null) {
+                mLocalBind.exoPlayerPause();
+            }
             Intent intent = new Intent(this, VideoPlayerVLC.class);
             intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");
             startActivity(intent);
+
         }else {
             loadingDialog.alert();
         }
@@ -326,7 +329,9 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.rhm_tv)
     public void rHmTvOnclick() {
         if (isConnect == true) {
-            mLocalBind.exoPlayerPause();
+            if (mLocalBind != null) {
+                mLocalBind.exoPlayerPause();
+            }
             Intent intent = new Intent(this, VideoPlayerVLC.class);
             intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");
             startActivity(intent);
