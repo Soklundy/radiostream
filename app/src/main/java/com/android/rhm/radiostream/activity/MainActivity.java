@@ -17,6 +17,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,13 +55,12 @@ import com.android.rhm.radiostream.utils.Constants;
 import com.android.rhm.radiostream.utils.LoadingDialog;
 import com.android.rhm.radiostream.utils.MutiLanguage;
 import com.android.rhm.radiostream.utils.SharedPreferencesFile;
+import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,6 +69,11 @@ import java.util.StringTokenizer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener, View.OnClickListener {
@@ -75,6 +81,7 @@ public class MainActivity extends AppCompatActivity
     private ServiceMusic.LocalBind mLocalBind;
     private boolean isBind = false;
     private String channelName;
+    private boolean isConnect;
 
     @BindView(R.id.hm_tv) LinearLayout hmTv;
     @BindView(R.id.rhm_tv) LinearLayout rhmTv;
@@ -102,7 +109,6 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= 23) {
             checkAndRequestPermissions();
         }
-
+        checkInternetConnection();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -122,10 +128,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View view = navigationView.getHeaderView(0);
+        /*View view = navigationView.getHeaderView(0);
         TextView textView = (TextView) view.findViewById(R.id.txt_username_header);
         textView.setText(new SharedPreferencesFile(this,
-                SharedPreferencesFile.FILENAME).getStringSharedPreference(SharedPreferencesFile.USERNAME));
+                SharedPreferencesFile.FILENAME).getStringSharedPreference(SharedPreferencesFile.USERNAME));*/
 
         ButterKnife.bind(this);
 
@@ -233,16 +239,20 @@ public class MainActivity extends AppCompatActivity
                     txtRhmTv.setTextColor(getResources().getColor(R.color.defult_textview));
                     icRhmTv.setImageResource(R.drawable.ic_tv);
                     break;
-                /*case R.id.rhm_radio:
-                    rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
-                    icRhm.setImageResource(R.drawable.ic_headphone_org);
-                    break;
+               /* case R.id.rhm_radio:
+                    if (isConnect == false) {
+                        rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                        txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
+                        icRhm.setImageResource(R.drawable.ic_headphone_org);
+                        break;
+                    }
                 case R.id.hm_radio:
-                    hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
-                    icHm.setImageResource(R.drawable.ic_headphone_org);
-                    break;*/
+                    if (isConnect == false) {
+                        hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                        txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
+                        icHm.setImageResource(R.drawable.ic_headphone_org);
+                        break;
+                    }*/
             }
         }
         return false;
@@ -267,32 +277,60 @@ public class MainActivity extends AppCompatActivity
                 hmRadio.setEnabled(true);
                 break;
         }
-        hideShowStatusBar(channelName);
-        loadingDialog.loading();
-        if (mLocalBind == null) {
-            if (new CheckServices().isMyServiceRunning(ServiceMusic.class, this)) {
-                stopService(new Intent(this, ServiceMusic.class));
-            }
-            startStart(url, channelName);
+        if (isConnect == true) {
+            hideShowStatusBar(channelName);
+            loadingDialog.loading();
+            if (mLocalBind == null) {
+                if (new CheckServices().isMyServiceRunning(ServiceMusic.class, this)) {
+                    stopService(new Intent(this, ServiceMusic.class));
+                }
+                startStart(url, channelName);
 
-        } else {
-            mLocalBind.playFm(url, channelName);
-            Log.e("test_service", "mlocalBind!=null_work");
+            } else {
+                mLocalBind.playFm(url, channelName);
+                Log.e("test_service", "mlocalBind!=null_work");
+            }
+        }else {
+            loadingDialog.alert(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    /*rhm*/
+                    rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
+                    icRhm.setImageResource(R.drawable.ic_headphone_org);
+
+                    /*hm*/
+                    hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
+                    icHm.setImageResource(R.drawable.ic_headphone_org);
+                    rhmRadio.setEnabled(true);
+                    hmRadio.setEnabled(true);
+                    dialog.dismiss();
+                }
+            });
         }
     }
 
     @OnClick(R.id.hm_tv)
     public void hmTvOnclick() {
-        Intent intent = new Intent(this, VideoPlayerVLC.class);
-        intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");
-        startActivity(intent);
+        if (isConnect == true) {
+            Intent intent = new Intent(this, VideoPlayerVLC.class);
+            intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");
+            startActivity(intent);
+        }else {
+            loadingDialog.alert();
+        }
     }
 
     @OnClick(R.id.rhm_tv)
     public void rHmTvOnclick() {
-        Intent intent = new Intent(this, VideoPlayerVLC.class);
-        intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");
-        startActivity(intent);
+        if (isConnect == true) {
+            Intent intent = new Intent(this, VideoPlayerVLC.class);
+            intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");
+            startActivity(intent);
+        }else {
+            loadingDialog.alert();
+        }
     }
 
     private void hideShowStatusBar(String channelName) {
@@ -338,6 +376,11 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onPlayerError(ExoPlaybackException error) {
+                    if (isBind == true) {
+                        unbindService(mServiceConnect);
+                        mLocalBind = null;
+                        isBind = false;
+                    }
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle(getResources().getString(R.string.can_load))
                             .setMessage(getResources().getString(R.string.check_inter))
@@ -464,5 +507,17 @@ public class MainActivity extends AppCompatActivity
         }catch (NullPointerException e){
 
         }
+    }
+
+    private void checkInternetConnection() {
+        ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean isConnectedToInternet) {
+                        isConnect = isConnectedToInternet;
+                    }
+                });
     }
 }

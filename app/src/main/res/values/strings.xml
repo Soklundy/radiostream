@@ -36,6 +36,7 @@
     <string name="login_fail">Incorrect Username&amp;Password.</string>
     <string name="register_fail">This username is already in use.</string>
     <string name="virify_sign">Please check your information again.</string>
+    <string name="no_inter">No internet connection.</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>

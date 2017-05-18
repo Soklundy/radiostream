@@ -1,5 +1,6 @@
 package com.android.rhm.radiostream.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,7 +43,31 @@ public class LoadingDialog {
     public void alertMessage(String s) {
         new AlertDialog.Builder(mContext)
                 .setMessage(s)
+                .setCancelable(true)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public void alert(DialogInterface.OnClickListener listener) {
+        new AlertDialog.Builder(mContext)
+                .setCancelable(false)
+                .setTitle(mContext.getResources().getString(R.string.can_load))
+                .setMessage(mContext.getResources().getString(R.string.check_inter))
+                .setPositiveButton(android.R.string.yes, listener)
+                .show();
+    }
+
+    public void alert() {
+        new AlertDialog.Builder(mContext)
+                .setCancelable(false)
+                .setTitle(mContext.getResources().getString(R.string.can_load))
+                .setMessage(mContext.getResources().getString(R.string.check_inter))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

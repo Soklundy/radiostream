@@ -250,7 +250,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/rhm_tv"
+                        android:src="@drawable/new_rhm_tv"
                         android:layout_width="60dp"
                         android:layout_height="60dp" />
 

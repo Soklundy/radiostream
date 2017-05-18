@@ -183,8 +183,8 @@ public class RadioDetail extends AppCompatActivity{
                 public void onPlayerError(ExoPlaybackException error) {
                     try {
                         new AlertDialog.Builder(RadioDetail.this)
-                                .setTitle("Can't loading radio")
-                                .setMessage("Please check your internet connection.")
+                                .setTitle(getResources().getString(R.string.can_load))
+                                .setMessage(getResources().getString(R.string.check_inter))
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -192,7 +192,7 @@ public class RadioDetail extends AppCompatActivity{
                                 })
                                 .show();
                             loadingDialog.closeLoad();
-                    }catch (NullPointerException e){
+                    }catch (Exception e){
 
                     }
                 }

@@ -11,18 +11,18 @@ import android.widget.SeekBar;
 
 public class Constants {
 
-    public static final String TITLESTATUS = "com.android.rhm.radiostream.title";
-    public static final String CHHANELNAME = "com.android.rhm.radiostream.chhanelname";
-    public static final String CHHANELNUM = "com.android.rhm.radiostream.chhanelnumber";
+    public static final String TITLESTATUS = "radiostream.title888888";
+    public static final String CHHANELNAME = "rhm.radiostream.chhanelname888888";
+    public static final String CHHANELNUM = "rhm.radiostream.chhanelnumber888888";
 
-    public static String INTENTSHOW = "com.android.rhm.rhm888888";
-    public static String INIT_ACTION = "com.android.rhm.radiostream.init";
-    public static String PREV_ACTION = "com.android.rhm.radiostream.prev";
-    public static String PLAY_ACTION = "com.android.rhm.radiostream.play";
-    public static String PAUSE_PLAY_ACTION = "com.android.rhm.radiostream.stop";
-    public static String NEXT_ACTION = "com.android.rhm.radiostream.next";
-    public static String STARTFOREGROUND_ACTION = "com.android.rhm.radiostream.startforeground";
-    public static String STOPFOREGROUND_ACTION = "com.android.rhm.radiostream.stopforeground";
+    public static String INTENTSHOW = "rhm888888";
+    public static String INIT_ACTION = "radiostream.init888888";
+    public static String PREV_ACTION = "radiostream.prev888888";
+    public static String PLAY_ACTION = "radiostream.play888888";
+    public static String PAUSE_PLAY_ACTION = "rhm.radiostream.stop888888";
+    public static String NEXT_ACTION = "radiostream.next888888";
+    public static String STARTFOREGROUND_ACTION = "radiostream.startforeground888888";
+    public static String STOPFOREGROUND_ACTION = "radiostream.stopforeground888888";
 
     public interface NOTIFICATION_ID {
         public static int FOREGROUND_SERVICE = 1;

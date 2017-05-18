@@ -35,4 +35,7 @@ dependencies {
 
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.code.gson:gson:2.6.2'
+
+    /*internet connection*/
+    compile 'com.github.pwittchen:reactivenetwork-rx2:0.9.1'
 }

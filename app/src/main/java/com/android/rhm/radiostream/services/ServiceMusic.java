@@ -25,6 +25,7 @@ import com.android.rhm.radiostream.R;
 import com.android.rhm.radiostream.activity.MainActivity;
 import com.android.rhm.radiostream.utils.Constants;
 import com.android.rhm.radiostream.utils.LoadingDialog;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -41,6 +42,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 import java.io.IOException;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by soklundy on 5/6/2017.
  */
@@ -49,6 +54,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
     private RemoteViews views;
+    private boolean isConnect;
     private Uri uri;
     private Notification status;
     private static  final int NOTIFICATION_ID = 100;
@@ -58,6 +64,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private IBinder mBinder = new LocalBind();
     private ExoPlayer exoPlayer;
     private Context mContext;
+    private boolean isUnableToConnect;
     private DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(
             userAgent, null,
             DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
@@ -69,6 +76,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         super.onCreate();
         mContext = ServiceMusic.this;
         views = new RemoteViews(getPackageName(), R.layout.notification_layout);
+        checkInternetConnection();
     }
 
     @Override
@@ -88,7 +96,9 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                     changeControlIconNotification(R.drawable.ic_play);
                 }else {
                     play();
-                    changeControlIconNotification(R.drawable.ic_pause);
+                    if (isConnect == true) {
+                        changeControlIconNotification(R.drawable.ic_pause);
+                    }
                 }
             } else if (intent.getAction().equals(Constants.STOPFOREGROUND_ACTION)) {
                 Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();
@@ -105,7 +115,6 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 closeStatusBar();
 
             }else if (intent.getAction().equals(Constants.INTENTSHOW)) {
-                Toast.makeText(this, "intent", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(dialogIntent);
@@ -258,7 +267,19 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     }
 
     private void play() {
-        exoPlayer.setPlayWhenReady(true);
+        if (isConnect == true) {
+            if (isUnableToConnect == true) {
+                MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
+                        mHandler, null);
+                exoPlayer.prepare(mediaSource);
+                exoPlayer.setPlayWhenReady(true);
+                isUnableToConnect = false;
+                Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();
+            }else {
+                exoPlayer.setPlayWhenReady(true);
+                Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -269,7 +290,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
-        Toast.makeText(mContext, isLoading+"", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -292,12 +313,28 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
+        Toast.makeText(mContext, "error_onservice_unable to connect", Toast.LENGTH_SHORT).show();
         changeControlIconNotification(R.drawable.ic_play);
         exoPlayer.setPlayWhenReady(false);
+        if (exoPlayer != null) {
+            isUnableToConnect = true;
+        }
     }
 
     @Override
     public void onPositionDiscontinuity() {
-        Toast.makeText(mContext, "onPositionDiscontinuity", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void checkInternetConnection() {
+        ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean isConnectedToInternet) {
+                        isConnect = isConnectedToInternet;
+                    }
+                });
     }
 }
