@@ -179,16 +179,12 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         public void exoPlayerPlay() {
             if (isPlaying() == false){
                 play();
-            }else {
-                Toast.makeText(mContext, "You are already play", Toast.LENGTH_SHORT).show();
             }
         }
 
         public void exoPlayerPause() {
             if (isPlaying() == true) {
                 pause();
-            }else {
-                Toast.makeText(mContext, "You are already pause", Toast.LENGTH_SHORT).show();
             }
         }
 
