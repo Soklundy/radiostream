@@ -378,11 +378,6 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onPlayerError(ExoPlaybackException error) {
-                    if (isBind == true) {
-                        unbindService(mServiceConnect);
-                        mLocalBind = null;
-                        isBind = false;
-                    }
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle(getResources().getString(R.string.can_load))
                             .setMessage(getResources().getString(R.string.check_inter))
