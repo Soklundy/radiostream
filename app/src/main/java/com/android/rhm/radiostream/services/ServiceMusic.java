@@ -135,6 +135,11 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private void changeTextNIconControlNotification(String text, int resourceId) {
         views.setTextViewText(R.id.txt_status, text);
         views.setImageViewResource(R.id.ic_image, resourceId);
+        if (text.contains("95")) {
+            views.setImageViewResource(R.id.img_logo, R.drawable.ic_97);
+        }else {
+            views.setImageViewResource(R.id.img_logo, R.drawable.ic_104);
+        }
         status.contentView = views;
         notificationmanager.notify(NOTIFICATION_ID, status);
     }
