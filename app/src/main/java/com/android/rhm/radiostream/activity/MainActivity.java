@@ -206,26 +206,6 @@ public class MainActivity extends AppCompatActivity
                     txtRhmTv.setTextColor(getResources().getColor(R.color.colorPrimary));
                     icRhmTv.setImageResource(R.drawable.ic_tv_white);
                     break;
-                case R.id.rhm_radio:
-                    rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    icRhm.setImageResource(R.drawable.ic_headphone_white);
-
-                    /*un hightlight hm*/
-                    hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
-                    icHm.setImageResource(R.drawable.ic_headphone_org);
-                    break;
-                case R.id.hm_radio:
-                    hmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                    txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    icHm.setImageResource(R.drawable.ic_headphone_white);
-
-                    /*un hightlight hm*/
-                    rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
-                    icRhm.setImageResource(R.drawable.ic_headphone_org);
-                    break;
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             switch (id){
@@ -239,20 +219,6 @@ public class MainActivity extends AppCompatActivity
                     txtRhmTv.setTextColor(getResources().getColor(R.color.defult_textview));
                     icRhmTv.setImageResource(R.drawable.ic_tv);
                     break;
-               /* case R.id.rhm_radio:
-                    if (isConnect == false) {
-                        rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                        txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
-                        icRhm.setImageResource(R.drawable.ic_headphone_org);
-                        break;
-                    }
-                case R.id.hm_radio:
-                    if (isConnect == false) {
-                        hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
-                        txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
-                        icHm.setImageResource(R.drawable.ic_headphone_org);
-                        break;
-                    }*/
             }
         }
         return false;
@@ -268,6 +234,14 @@ public class MainActivity extends AppCompatActivity
                 url = "http://111.92.240.134:89/broadwavehigh.mp3";
                 hmRadio.setEnabled(false);
                 rhmRadio.setEnabled(true);
+                hmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
+                icHm.setImageResource(R.drawable.ic_headphone_white);
+
+                    /*un hightlight hm*/
+                rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
+                icRhm.setImageResource(R.drawable.ic_headphone_org);
                 break;
             case R.id.rhm_radio:
                 channelName = txtRhm.getText().toString();
@@ -275,6 +249,14 @@ public class MainActivity extends AppCompatActivity
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";
                 rhmRadio.setEnabled(false);
                 hmRadio.setEnabled(true);
+                rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
+                icRhm.setImageResource(R.drawable.ic_headphone_white);
+
+                    /*un hightlight hm*/
+                hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
+                txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
+                icHm.setImageResource(R.drawable.ic_headphone_org);
                 break;
         }
         if (isConnect == true) {
