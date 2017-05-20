@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isBind = false;
     private String channelName;
     private boolean isConnect;
+    private AnimationDrawable animation;
 
     @BindView(R.id.hm_tv) LinearLayout hmTv;
     @BindView(R.id.rhm_tv) LinearLayout rhmTv;
@@ -100,6 +102,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.ic_hm_tv) ImageView icHmTv;
     @BindView(R.id.ic_rhm_tv) ImageView icRhmTv;
     @BindView(R.id.ic_playerbar) ImageView icPlayerBar;
+    @BindView(R.id.ic_audio) ImageView imgAudio;
+
     private LoadingDialog loadingDialog;
 
     private final BroadcastReceiver finishFromOther = new BroadcastReceiver() {
@@ -145,6 +149,7 @@ public class MainActivity extends AppCompatActivity
 
         hmRadio.setOnClickListener(this);
         rhmRadio.setOnClickListener(this);
+        startAnimation();
     }
 
     @Override
@@ -355,6 +360,11 @@ public class MainActivity extends AppCompatActivity
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                     if (playbackState == ExoPlayer.STATE_READY) {
                         loadingDialog.closeLoad();
+                        animation.start();
+                    }
+
+                    if (playWhenReady == false) {
+                        animation.stop();
                     }
                 }
 
@@ -503,5 +513,23 @@ public class MainActivity extends AppCompatActivity
                         isConnect = isConnectedToInternet;
                     }
                 });
+    }
+
+  /*  class Starter implements Runnable {
+        public void run() {
+            animation.start();
+        }
+    }*/
+
+    private void startAnimation() {
+   /*     animation = new AnimationDrawable();
+        animation.addFrame(getResources().getDrawable(R.drawable.ic_audio), 100);
+        animation.addFrame(getResources().getDrawable(R.drawable.ic_headphone_white), 100);
+        animation.addFrame(getResources().getDrawable(R.drawable.ic_tv_white), 100);
+        animation.setOneShot(false);
+        imgAudio.setImageDrawable(animation);*/
+
+        imgAudio.setBackgroundResource(R.drawable.ic_audio_anim);
+        animation = (AnimationDrawable) imgAudio.getBackground();
     }
 }

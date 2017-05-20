@@ -336,7 +336,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_audio"
+                        android:id="@+id/ic_audio"
                         android:layout_width="25dp"
                         android:layout_height="25dp" />
 
