@@ -38,7 +38,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.CheckServices;
 import com.hm.rhm.radiostream.utils.Constants;

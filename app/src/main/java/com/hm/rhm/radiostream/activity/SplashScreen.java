@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 
 public class SplashScreen extends Activity {
 

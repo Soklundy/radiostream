@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.utils.API;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.hm.rhm.radiostream.utils.MySingleton;

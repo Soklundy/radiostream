@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.utils.API;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.hm.rhm.radiostream.utils.MySingleton;

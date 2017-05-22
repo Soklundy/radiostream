@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 
 /**
  * Created by soklundy on 5/6/2017.

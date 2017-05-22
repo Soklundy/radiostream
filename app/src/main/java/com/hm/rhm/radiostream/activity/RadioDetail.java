@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.BlurBuilder;
 import com.hm.rhm.radiostream.utils.Constants;

@@ -14,7 +14,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
 
 import org.videolan.libvlc.IVLCVout;

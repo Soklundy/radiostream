@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.android.rhm.radiostream.R;
+import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.activity.MainActivity;
 import com.hm.rhm.radiostream.utils.Constants;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
