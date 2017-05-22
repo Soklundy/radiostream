@@ -1,30 +1,23 @@
-package com.android.rhm.radiostream.services;
+package com.hm.rhm.radiostream.services;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.android.rhm.radiostream.R;
-import com.android.rhm.radiostream.activity.MainActivity;
-import com.android.rhm.radiostream.utils.Constants;
-import com.android.rhm.radiostream.utils.LoadingDialog;
+import com.hm.rhm.radiostream.activity.MainActivity;
+import com.hm.rhm.radiostream.utils.Constants;
+import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -39,8 +32,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-
-import java.io.IOException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;

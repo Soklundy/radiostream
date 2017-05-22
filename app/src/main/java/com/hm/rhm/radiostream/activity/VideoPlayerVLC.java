@@ -1,12 +1,10 @@
-package com.android.rhm.radiostream.activity;
+package com.hm.rhm.radiostream.activity;
 
 
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -17,14 +15,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.rhm.radiostream.R;
-import com.android.rhm.radiostream.utils.LoadingDialog;
-import com.android.rhm.radiostream.utils.MutiLanguage;
+import com.hm.rhm.radiostream.utils.LoadingDialog;
 
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.media.VideoView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

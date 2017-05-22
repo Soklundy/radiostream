@@ -1,4 +1,4 @@
-package com.android.rhm.radiostream.utils;
+package com.hm.rhm.radiostream.utils;
 
 /**
  * Created by soklundy on 5/17/2017.

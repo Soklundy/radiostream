@@ -8,7 +8,7 @@
     android:gravity="center"
     android:paddingTop="40dp"
     android:background="@color/colorAccent"
-    tools:context="com.android.rhm.radiostream.activity.ContactUS">
+    tools:context="com.android.rhm.radiostream.com.hm.rhm.radiostream.activity.ContactUS">
 
     <ImageView
         android:src="@drawable/hm_logo"

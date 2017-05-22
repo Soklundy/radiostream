@@ -1,4 +1,4 @@
-package com.android.rhm.radiostream.activity;
+package com.hm.rhm.radiostream.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -10,25 +10,22 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.UnicodeSetSpanner;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.rhm.radiostream.R;
-import com.android.rhm.radiostream.services.ServiceMusic;
-import com.android.rhm.radiostream.utils.BlurBuilder;
-import com.android.rhm.radiostream.utils.Constants;
-import com.android.rhm.radiostream.utils.LoadingDialog;
+import com.hm.rhm.radiostream.services.ServiceMusic;
+import com.hm.rhm.radiostream.utils.BlurBuilder;
+import com.hm.rhm.radiostream.utils.Constants;
+import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;

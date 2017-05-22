@@ -1,4 +1,4 @@
-package com.android.rhm.radiostream.utils;
+package com.hm.rhm.radiostream.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;

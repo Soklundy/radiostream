@@ -1,4 +1,4 @@
-package com.android.rhm.radiostream.utils;
+package com.hm.rhm.radiostream.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

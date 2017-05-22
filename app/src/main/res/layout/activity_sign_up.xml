@@ -7,7 +7,7 @@
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.android.rhm.radiostream.activity.SignUp">
+    tools:context="com.android.rhm.radiostream.com.hm.rhm.radiostream.activity.SignUp">
 
     <LinearLayout
         android:paddingRight="15dp"

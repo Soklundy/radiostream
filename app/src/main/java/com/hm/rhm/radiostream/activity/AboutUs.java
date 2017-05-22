@@ -1,9 +1,10 @@
-package com.android.rhm.radiostream.activity;
+package com.hm.rhm.radiostream.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.android.rhm.radiostream.R;
+
 
 public class AboutUs extends AppCompatActivity {
 
