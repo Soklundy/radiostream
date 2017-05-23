@@ -78,7 +78,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_97"
+                        android:src="@drawable/ic_95"
                         android:layout_width="60dp"
                         android:layout_height="60dp" />
 

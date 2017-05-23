@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    android:gravity="center"
-    tools:context="com.hm.rhm.radiostream.com.hm.rhm.radiostream.activity.SplashScreen">
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/img_splash"

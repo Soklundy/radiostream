@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.rhm_radio:
                 channelName = txtRhm.getText().toString();
-                icPlayerBar.setImageResource(R.drawable.ic_97);
+                icPlayerBar.setImageResource(R.drawable.ic_95);
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";
                 rhmRadio.setEnabled(false);
                 hmRadio.setEnabled(true);

@@ -98,7 +98,7 @@ public class RadioDetail extends AppCompatActivity{
         txtNumFm.setText(splitChannelName(channelName, 1) + splitChannelName(channelName, 2)
                 + splitChannelName(channelName, 3) + " MHz");
         if (channelName.contains("95")) {
-            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_97));
+            imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_95));
         }else {
             imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_104));
         }
