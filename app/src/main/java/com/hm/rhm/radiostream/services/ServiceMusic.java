@@ -339,7 +339,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
-            if (state == TelephonyManager.CALL_STATE_RINGING) {
+            if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK) {
                 if (isPlaying()) {
                     exoPlayer.setPlayWhenReady(false);
                 }
@@ -349,7 +349,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 }*/
                 /*play*/
             } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
-                //A call is dialing, active or on hold
+
             }
             super.onCallStateChanged(state, incomingNumber);
         }
