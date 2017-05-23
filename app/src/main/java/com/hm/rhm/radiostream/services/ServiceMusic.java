@@ -85,7 +85,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
             } else if (intent.getAction().equals(Constants.NEXT_ACTION)) {
                 Toast.makeText(this, "Clicked Next", Toast.LENGTH_SHORT).show();
             } else if (intent.getAction().equals(Constants.PAUSE_PLAY_ACTION)) {
-                Toast.makeText(mContext, "stop/play", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(mContext, "stop/play", Toast.LENGTH_SHORT).show();*/
                 if (isPlaying()) {
                     pause();
                     changeControlIconNotification(R.drawable.ic_play);
@@ -96,7 +96,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                     }
                 }
             } else if (intent.getAction().equals(Constants.STOPFOREGROUND_ACTION)) {
-                Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();*/
                 if (exoPlayer != null) {
                     exoPlayer.stop();
                     exoPlayer.seekTo(0);
@@ -272,10 +272,10 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
                 isUnableToConnect = false;
-                Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();*/
             }else {
                 exoPlayer.setPlayWhenReady(true);
-                Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();*/
             }
         }
     }
@@ -311,7 +311,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-        Toast.makeText(mContext, "error_onservice_unable to connect", Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(mContext, "error_onservice_unable to connect", Toast.LENGTH_SHORT).show();*/
         changeControlIconNotification(R.drawable.ic_play);
         exoPlayer.setPlayWhenReady(false);
         if (exoPlayer != null) {

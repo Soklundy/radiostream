@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -77,7 +78,7 @@ public class MutiLanguage {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         Configuration config = context.getResources().getConfiguration();
 
-        String lang = settings.getString("LANG", "");
+        String lang = settings.getString("LANG", "km");
         if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang)) {
             Locale locale = new Locale(lang);
             Locale.setDefault(locale);

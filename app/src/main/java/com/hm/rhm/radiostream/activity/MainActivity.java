@@ -413,7 +413,8 @@ public class MainActivity extends AppCompatActivity
 
     private  void checkAndRequestPermissions() {
         String [] permissions=new String[]{
-                Manifest.permission.INTERNET
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE
         };
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String permission:permissions) {
@@ -431,9 +432,9 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "work " + permissions[0] , Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(this, "work " + permissions[0] , Toast.LENGTH_SHORT).show();*/
                 } else {
-                    Toast.makeText(this, "not work " + permissions[0] , Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(this, "not work " + permissions[0] , Toast.LENGTH_SHORT).show();*/
                 }
                 break;
         }
@@ -454,10 +455,10 @@ public class MainActivity extends AppCompatActivity
         final MutiLanguage mutiLanguage = new MutiLanguage(this, this);
         String lang = mutiLanguage.getLanguageCurrent();
 
-        if (lang.equals("en") || lang.isEmpty()) {
-            radioBtnEn.setChecked(true);
-        }else {
+        if (lang.equals("km") || lang.isEmpty()) {
             radioBtnKm.setChecked(true);
+        }else {
+            radioBtnEn.setChecked(true);
         }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
