@@ -16,11 +16,14 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.BlurBuilder;
@@ -33,6 +36,9 @@ import com.google.android.exoplayer2.Timeline;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by soklundy on 5/8/2017.
@@ -42,6 +48,7 @@ public class RadioDetail extends AppCompatActivity{
 
     private AudioManager audioManager;
     private boolean isBind;
+    private boolean isConnect;
     private ServiceMusic.LocalBind mLocalBind;
     private LoadingDialog loadingDialog;
     private final BroadcastReceiver finishFromOther = new BroadcastReceiver() {
@@ -57,6 +64,7 @@ public class RadioDetail extends AppCompatActivity{
     @BindView(R.id.txt_title_fm) TextView txtTitleFm;
     @BindView(R.id.txt_num_fm) TextView txtNumFm;
     @BindView(R.id.img_channel) ImageView imgChannel;
+    @BindView(R.id.img_play_pause) ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +77,17 @@ public class RadioDetail extends AppCompatActivity{
         bindTextWithData(getIntent().getStringExtra(Constants.CHHANELNAME));
         initVolumeControls();
         registerReceiver(finishFromOther, new IntentFilter("key_close"));
+        checkBuuton();
+        checkInternetConnection();
+    }
+
+    private void checkBuuton() {
+        boolean isPlayerStart = getIntent().getBooleanExtra("player_status", false);
+        if (isPlayerStart) {
+            imageView.setImageResource(R.drawable.ic_pause);
+        }else {
+            imageView.setImageResource(R.drawable.ic_play);
+        }
     }
 
     @OnClick(R.id.img_close)
@@ -76,14 +95,17 @@ public class RadioDetail extends AppCompatActivity{
         finish();
     }
 
-    @OnClick(R.id.img_play)
-    public void btnPlay() {
-        mLocalBind.exoPlayerPlay();
-    }
-
-    @OnClick(R.id.img_pause)
-    public void btnPause() {
-        mLocalBind.exoPlayerPause();
+    @OnClick(R.id.img_play_pause)
+    public void btnPlay(View v) {
+        if (isConnect == true) {
+            if (mLocalBind.bindIsPlaying()) {
+                mLocalBind.exoPlayerPause();
+                imageView.setImageResource(R.drawable.ic_play);
+            } else {
+                mLocalBind.exoPlayerPlay();
+                imageView.setImageResource(R.drawable.ic_pause);
+            }
+        }
     }
 
     private void initBlurBackGround() {
@@ -94,13 +116,14 @@ public class RadioDetail extends AppCompatActivity{
     }
 
     private void bindTextWithData(String channelName) {
-        txtTitleFm.setText(splitChannelName(channelName, 0) + "");
-        txtNumFm.setText(splitChannelName(channelName, 1) + splitChannelName(channelName, 2)
-                + splitChannelName(channelName, 3) + " MHz");
         if (channelName.contains("95")) {
             imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_95));
+            txtTitleFm.setText(R.string.rhm_fm);
+            txtNumFm.setText("FM 95.7 MHz");
         }else {
             imgChannel.setImageDrawable(getResources().getDrawable(R.drawable.ic_104));
+            txtTitleFm.setText(R.string.hm_fm);
+            txtNumFm.setText("FM 104.5 MHz");
         }
     }
 
@@ -169,6 +192,12 @@ public class RadioDetail extends AppCompatActivity{
 
                         }
                     }
+
+                    if (playWhenReady == true) {
+                        imageView.setImageResource(R.drawable.ic_pause);
+                    }else {
+                        imageView.setImageResource(R.drawable.ic_play);
+                    }
                 }
 
                 @Override
@@ -214,5 +243,17 @@ public class RadioDetail extends AppCompatActivity{
         if (isBind) {
             unbindService(mServiceConnect);
         }
+    }
+
+    private void checkInternetConnection() {
+        ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean isConnectedToInternet) {
+                        isConnect = isConnectedToInternet;
+                    }
+                });
     }
 }

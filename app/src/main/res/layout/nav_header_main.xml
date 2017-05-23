@@ -14,11 +14,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:srcCompat="@drawable/cricle_hm" />
 
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -26,6 +27,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/txt_username_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -12,8 +12,7 @@
         Sangkat Boeung Prolit, Khan 7 Makara\n
         Phnom Penh, Cambodia\n
         Email : info@hangmeasfm.com\n
-        Hotline : 023 452 3333\n
-        News Department : 023 721 516
+        Hotline : 023 452 3333
     </string>
 
     <string name="about_us">About US</string>
@@ -28,7 +27,7 @@
     <string name="dob">Date Of Birth</string>
     <string name="Loading">Loading...</string>
     <string name="radio_st">Radio Streaming</string>
-    <string name="video_st">Video Streaming</string>
+    <string name="video_st">TV Streaming</string>
     <string name="lng">Language</string>
     <string name="can_load">Can\'t loading radio</string>
     <string name="check_inter">Please check your internet connection.</string>
@@ -37,6 +36,13 @@
     <string name="register_fail">This username is already in use.</string>
     <string name="virify_sign">Please check your information again.</string>
     <string name="no_inter">No internet connection.</string>
+    <string name="rhm_fm_95">RHM FM 95.7 MHz</string>
+    <string name="rhm_fm_104">HM FM 104.5 MHz</string>
+    <string name="rhm_fm">Rasmey Hang Meas</string>
+    <string name="hm_fm">Hang Meas</string>
+    <string name="hm_tv">HM HDTV</string>
+    <string name="rhm_tv">RHM HDTV</string>
+    <string name="status_bar_bottom">You\'re listening to</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>

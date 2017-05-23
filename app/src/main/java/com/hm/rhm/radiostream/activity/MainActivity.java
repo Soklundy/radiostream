@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private String channelName;
     private boolean isConnect;
     private AnimationDrawable animation;
+    private boolean isPlayerStart;
 
     @BindView(R.id.hm_tv) LinearLayout hmTv;
     @BindView(R.id.rhm_tv) LinearLayout rhmTv;
@@ -349,6 +350,7 @@ public class MainActivity extends AppCompatActivity
                     if (playWhenReady == false) {
                         animation.stop();
                     }
+                    isPlayerStart = playWhenReady;
                 }
 
                 @Override
@@ -387,6 +389,7 @@ public class MainActivity extends AppCompatActivity
     public void playerBarOnClick() {
         Intent intent = new Intent(this, RadioDetail.class);
         intent.putExtra(Constants.CHHANELNAME, channelName);
+        intent.putExtra("player_status", isPlayerStart);
         startActivity(intent);
     }
     @Override

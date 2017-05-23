@@ -7,13 +7,13 @@
     <string name="action_settings">ការកំណត់</string>
     <string name="sign_up_here"><u>ចុះឈ្មោះនៅទីនេះ។</u></string>
 
-    <string name="para_contact_us">
-        No, 132-134Eo, St. 182\n
-        Sangkat Boeung Prolit, Khan 7 Makara\n
-        Phnom Penh, Cambodia\n
-        Email : info@hangmeasfm.com\n
-        Hotline : 023 452 3333\n
-        News Department : 023 721 516
+     <string name="para_contact_us">
+        អាគារលេខ 314E0, ផ្លូវ ឧកញ្ញា ទេព្រផន\n
+        (ផ្លូវលេខ 182)\n
+        សង្កាត់ បឹងព្រលឹត ខណ្ឌ 7 មករា\n
+        រាជធានីភ្នំពេញ\n
+        អ៊ីម៉ែល : info@hangmeasfm.com\n
+        ទូរស័ព្ទទំនាក់ទំនង: ០២៣ ៤៥២ ៣៣៣៣
     </string>
 
     <string name="about_us">អំពី​ពួក​យើង</string>
@@ -27,8 +27,8 @@
     <string name="gender">ភេទ</string>
     <string name="dob">ថ្ងៃខែ​ឆ្នាំ​កំណើត</string>
     <string name="Loading">កំពុង​ដំណើរការ...</string>
-    <string name="radio_st">ការផ្សាយបន្តផ្ទាល់វិទ្យុ</string>
-    <string name="video_st">ការផ្សាយបន្តផ្ទាល់</string>
+    <string name="radio_st">វិទ្យុផ្សាយបន្តផ្ទាល់</string>
+    <string name="video_st">ទូរទស្សន៍ផ្សាយបន្តផ្ទាល់</string>
     <string name="lng">ភាសា</string>
     <string name="can_load">មិនអាចផ្ទុកកម្មវិធីវិទ្យុ</string>
     <string name="check_inter">សូមពិនិត្យមើលការតភ្ជាប់អ៊ីធឺណិតរបស់អ្នក។</string>
@@ -37,6 +37,13 @@
     <string name="register_fail">ឈ្មោះអ្នកប្រើនេះគឺបានចុះឈ្មោះរួចម្តងហើយ។</string>
     <string name="virify_sign">សូមពិនិត្យមើលទិន្នន័យរបស់អ្នកម្តងទៀត។</string>
     <string name="no_inter">មិនមានការតភ្ជាប់អ៊ីធឺណិត។</string>
+    <string name="rhm_fm_95">រស្មីហង្សមាស FM 95.7 MHz</string>
+    <string name="rhm_fm_104">ហង្សមាស FM 104.5 MHz</string>
+    <string name="rhm_fm">វិទ្យុរស្មីហង្សមាស</string>
+    <string name="hm_fm">វិទ្យុហង្សមាស</string>
+    <string name="hm_tv">ហង្សមាស HDTV</string>
+    <string name="rhm_tv">រស្មីហង្សមាស HDTV</string>
+    <string name="status_bar_bottom">លោកអ្នកកំពុងស្តាប់វិទ្យុ</string>
 
     <string name="para_about_us">
         <b>HangMeas Production :\n\n</b>
