@@ -11,6 +11,8 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private ExoPlayer exoPlayer;
     private Context mContext;
     private boolean isUnableToConnect;
+    private TelephonyManager mTelephonyManager;
     private DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(
             userAgent, null,
             DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
@@ -67,6 +70,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         super.onCreate();
         mContext = ServiceMusic.this;
         views = new RemoteViews(getPackageName(), R.layout.notification_layout);
+        mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         checkInternetConnection();
     }
 
@@ -114,6 +118,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         } catch (Exception e) {
 
         }
+        setPhoneStateListener();
         return START_STICKY;
     }
 
@@ -138,6 +143,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        setUnRegisterPhoneStateListener();
     }
 
     @Nullable
@@ -328,5 +334,36 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                         isConnect = isConnectedToInternet;
                     }
                 });
+    }
+
+    private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            if (state == TelephonyManager.CALL_STATE_RINGING) {
+                if (isPlaying()) {
+                    exoPlayer.setPlayWhenReady(false);
+                }
+            } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+                /*if (!isPlaying()) {
+                    Toast.makeText(mContext, "CALL_STATE_IDLE", Toast.LENGTH_SHORT).show();
+                }*/
+                /*play*/
+            } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                //A call is dialing, active or on hold
+            }
+            super.onCallStateChanged(state, incomingNumber);
+        }
+    };
+
+    private void setPhoneStateListener() {
+        if(mTelephonyManager != null) {
+            mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+    }
+
+    private void setUnRegisterPhoneStateListener() {
+        if(mTelephonyManager != null) {
+            mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 }
