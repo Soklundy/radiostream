@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
+import com.hm.rhm.radiostream.utils.MutiLanguage;
 
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
@@ -57,7 +58,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         mSurface = (SurfaceView) findViewById(R.id.surface);
         holder = mSurface.getHolder();
         //holder.addCallback(this);
-
+        new MutiLanguage(this).StartUpCheckLanguage();
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -518,5 +519,11 @@ public class MainActivity extends AppCompatActivity
 
         imgAudio.setBackgroundResource(R.drawable.ic_audio_anim);
         animation = (AnimationDrawable) imgAudio.getBackground();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        new MutiLanguage(this).StartUpCheckLanguage();
     }
 }
