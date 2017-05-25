@@ -201,7 +201,8 @@
                     <ImageView
                         android:src="@drawable/hm"
                         android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        android:layout_height="60dp"
+                        android:id="@+id/imageView4" />
 
                 </LinearLayout>
 
@@ -325,6 +326,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:layout_centerHorizontal="true"
                         android:layout_alignParentTop="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -333,6 +335,7 @@
                         android:text="@string/status_bar_bottom" />
 
                     <TextView
+                        android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -27,8 +27,8 @@
     <string name="gender">ភេទ</string>
     <string name="dob">ថ្ងៃខែ​ឆ្នាំ​កំណើត</string>
     <string name="Loading">កំពុង​ដំណើរការ...</string>
-    <string name="radio_st">វិទ្យុផ្សាយបន្តផ្ទាល់</string>
-    <string name="video_st">ទូរទស្សន៍ផ្សាយបន្តផ្ទាល់</string>
+    <string name="radio_st">ការផ្សាយបន្តផ្ទាល់ពីវិទ្យុ</string>
+    <string name="video_st">ការផ្សាយបន្តផ្ទាល់ពីទូរទស្សន៍</string>
     <string name="lng">ភាសា</string>
     <string name="can_load">មិនអាចផ្ទុកកម្មវិធីវិទ្យុ</string>
     <string name="check_inter">សូមពិនិត្យមើលការតភ្ជាប់អ៊ីធឺណិតរបស់អ្នក។</string>
