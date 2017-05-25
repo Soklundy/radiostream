@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:paddingTop="40dp"
-    android:background="@color/colorAccent"
-    tools:context="com.hm.rhm.radiostream.com.hm.rhm.radiostream.activity.ContactUS">
+    android:background="@color/colorAccent">
 
     <ImageView
         android:src="@drawable/hm_logo"
@@ -41,12 +40,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <!--<TextView
                 android:textSize="16dp"
                 android:textColor="@color/colorPrimary"
                 android:text="@string/para_contact_us"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" />-->
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
