@@ -199,9 +199,9 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/hm"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:src="@drawable/hm_logo"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
                         android:id="@+id/imageView4" />
 
                 </LinearLayout>
