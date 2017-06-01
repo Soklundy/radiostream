@@ -49,6 +49,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:text="@string/radio_st"
                 android:layout_width="match_parent"
@@ -169,6 +170,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:text="@string/video_st"
                 android:layout_width="match_parent"
