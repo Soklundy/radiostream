@@ -344,12 +344,12 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                     exoPlayer.setPlayWhenReady(false);
                 }
             } else if(state == TelephonyManager.CALL_STATE_IDLE) {
-                /*if (!isPlaying()) {
-                    Toast.makeText(mContext, "CALL_STATE_IDLE", Toast.LENGTH_SHORT).show();
-                }*/
+                if (!isPlaying() && !incomingNumber.isEmpty()) {
+                    exoPlayer.setPlayWhenReady(true);
+                }
                 /*play*/
             } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
-
+                Toast.makeText(mContext, "CALL_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();
             }
             super.onCallStateChanged(state, incomingNumber);
         }
