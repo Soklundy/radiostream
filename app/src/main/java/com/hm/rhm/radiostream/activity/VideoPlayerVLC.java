@@ -155,7 +155,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
             options.add("--audio-time-stretch"); // time stretching
             options.add("-vvv"); // verbosity
             options.add("--http-reconnect");
-            options.add("--network-caching="+6*1000);
+            options.add("--network-caching="+20*1000);
             libvlc = new LibVLC(this, options);
             //libvlc.setOnHardwareAccelerationError(this);
             holder.setKeepScreenOn(true);

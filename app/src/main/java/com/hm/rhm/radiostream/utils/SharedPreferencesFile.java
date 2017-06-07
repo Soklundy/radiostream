@@ -12,6 +12,8 @@ public class SharedPreferencesFile {
     public static final String FILENAME = "rhm_hm_radio_stream_file";
     public static final String USERNAME = "usr_name";
     public static final String PHONENUMBER = "usr_phone_number";
+    public static final String FIRSTINSTALL = "FIRSTINSTALL";
+    public static final String KILLAPP = "KILLAPP";
 
     private Context mContext;
     private static SharedPreferencesFile mInstance = null;

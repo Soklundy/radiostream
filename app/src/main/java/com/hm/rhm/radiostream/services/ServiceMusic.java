@@ -34,6 +34,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.hm.rhm.radiostream.utils.SharedPreferencesFile;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -283,7 +284,11 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        notificationmanager.cancel(NOTIFICATION_ID);
+        try {
+            notificationmanager.cancel(NOTIFICATION_ID);
+        }catch (NullPointerException e) {
+            stopSelf();
+        }
     }
 
     @Override

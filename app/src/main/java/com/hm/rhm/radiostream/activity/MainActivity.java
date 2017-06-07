@@ -12,6 +12,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -49,6 +50,7 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.hm.rhm.radiostream.utils.SharedPreferencesFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -219,11 +221,16 @@ public class MainActivity extends AppCompatActivity
         String url = "";
         switch (v.getId()) {
             case R.id.hm_radio:
+                if (mLocalBind != null) {
+                    ColorDrawable colorHmRadio = (ColorDrawable) hmRadio.getBackground();
+                    if (mLocalBind.bindIsPlaying() && getResources().getColor(R.color.colorAccent) == colorHmRadio.getColor()) {
+                        return;
+                    }
+                }
+                Toast.makeText(this, "hm", Toast.LENGTH_SHORT).show();
                 channelName = txtHm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_104);
                 url = "http://111.92.240.134:89/broadwavehigh.mp3";
-                hmRadio.setEnabled(false);
-                rhmRadio.setEnabled(true);
                 hmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icHm.setImageResource(R.drawable.ic_headphone_white);
@@ -234,11 +241,16 @@ public class MainActivity extends AppCompatActivity
                 icRhm.setImageResource(R.drawable.ic_headphone_org);
                 break;
             case R.id.rhm_radio:
+                if (mLocalBind != null) {
+                    ColorDrawable colorHmRadio = (ColorDrawable) rhmRadio.getBackground();
+                    if (mLocalBind.bindIsPlaying() && getResources().getColor(R.color.colorAccent) == colorHmRadio.getColor()) {
+                        return;
+                    }
+                }
+                Toast.makeText(this, "rhm", Toast.LENGTH_SHORT).show();
                 channelName = txtRhm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_95);
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";
-                rhmRadio.setEnabled(false);
-                hmRadio.setEnabled(true);
                 rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icRhm.setImageResource(R.drawable.ic_headphone_white);
