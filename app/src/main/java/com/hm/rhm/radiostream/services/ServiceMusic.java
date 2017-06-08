@@ -58,7 +58,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private IBinder mBinder = new LocalBind();
     private ExoPlayer exoPlayer;
     private Context mContext;
-    private boolean isUnableToConnect;
+    /*private boolean isUnableToConnect;*/
     private TelephonyManager mTelephonyManager;
     private DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(
             userAgent, null,
