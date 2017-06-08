@@ -227,7 +227,6 @@ public class MainActivity extends AppCompatActivity
                         return;
                     }
                 }
-                Toast.makeText(this, "hm", Toast.LENGTH_SHORT).show();
                 channelName = txtHm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_104);
                 url = "http://111.92.240.134:89/broadwavehigh.mp3";
@@ -247,7 +246,6 @@ public class MainActivity extends AppCompatActivity
                         return;
                     }
                 }
-                Toast.makeText(this, "rhm", Toast.LENGTH_SHORT).show();
                 channelName = txtRhm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_95);
                 url = "http://111.92.240.134:90/broadwavehigh.mp3";

@@ -182,7 +182,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
             mMediaPlayer.play();
         } catch (Exception e) {
             Log.e("show_error", e.toString());
-            Toast.makeText(this, "Error creating player!", Toast.LENGTH_LONG).show();
+            /*Toast.makeText(this, "Error creating player!", Toast.LENGTH_LONG).show();*/
         }
 
         mSurface.getRootView().setOnTouchListener(new View.OnTouchListener() {
@@ -274,15 +274,15 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
                         toast.show();
                         break;
                     case MediaPlayer.Event.Playing:
-                        Toast.makeText(player, "playing", Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(player, "playing", Toast.LENGTH_SHORT).show();*/
                         player.loadingDialog.closeLoad();
                         break;
                     case MediaPlayer.Event.Paused:
-                        Toast.makeText(player, "Pause", Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(player, "Pause", Toast.LENGTH_SHORT).show();*/
                         player.loadingDialog.closeLoad();
                         break;
                     case MediaPlayer.Event.Stopped:
-                        Toast.makeText(player, "Stopped", Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(player, "Stopped", Toast.LENGTH_SHORT).show();*/
                         player.loadingDialog.closeLoad();
                         break;
                     default:
