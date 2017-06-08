@@ -111,6 +111,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 closeStatusBar();
 
             }else if (intent.getAction().equals(Constants.INTENTSHOW)) {
+                Toast.makeText(mContext, "INTENTSHOW", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(dialogIntent);
@@ -290,8 +291,6 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         }catch (NullPointerException e) {
 
         }
-        SharedPreferencesFile sharedPreferencesFile = new SharedPreferencesFile(this, SharedPreferencesFile.FILENAME);
-        sharedPreferencesFile.putBooleanSharedPreference(SharedPreferencesFile.FIRSTINSTALL, false);
     }
 
     @Override
