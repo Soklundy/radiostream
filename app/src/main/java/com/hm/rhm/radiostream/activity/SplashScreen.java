@@ -20,23 +20,19 @@ public class SplashScreen extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferencesFile sharedPreferencesFile = new SharedPreferencesFile(this, SharedPreferencesFile.FILENAME);
-        /*if (sharedPreferencesFile.getBooleanSharedPreference(SharedPreferencesFile.FIRSTINSTALL) == false) {*/
+        if (sharedPreferencesFile.getBooleanSharedPreference(SharedPreferencesFile.FIRSTINSTALL) == false) {
             setContentView(R.layout.activity_splash_screen);
             startAnimations();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                    SplashScreen.this.startActivity(intent);
-                    SplashScreen.this.finish();
-                }
-            }, SPLASH_DISPLAY_LENGTH);
             sharedPreferencesFile.putBooleanSharedPreference(SharedPreferencesFile.FIRSTINSTALL, true);
-        /*}else {
-            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            SplashScreen.this.startActivity(intent);
-        }*/
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                SplashScreen.this.startActivity(intent);
+            }
+        }, SPLASH_DISPLAY_LENGTH);
     }
 
     private void checkFrist() {

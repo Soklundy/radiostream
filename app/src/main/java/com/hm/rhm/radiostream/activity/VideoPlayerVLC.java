@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -56,7 +57,6 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         loadingDialog = new LoadingDialog(this);
 
         mSurface = (SurfaceView) findViewById(R.id.surface);
-        holder = mSurface.getHolder();
         //holder.addCallback(this);
         new MutiLanguage(this).StartUpCheckLanguage();
     }
@@ -70,18 +70,24 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
     @Override
     protected void onResume() {
         super.onResume();
+        if (holder == null) {
+            holder = mSurface.getHolder();
+        }
         createPlayer(mFilePath);
+        Log.e("show_error", "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("show_error", "onPause");
         releasePlayer();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("show_error", "onDestroy");
         releasePlayer();
     }
 
@@ -175,6 +181,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
             mMediaPlayer.setMedia(m);
             mMediaPlayer.play();
         } catch (Exception e) {
+            Log.e("show_error", e.toString());
             Toast.makeText(this, "Error creating player!", Toast.LENGTH_LONG).show();
         }
 
