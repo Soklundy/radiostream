@@ -267,17 +267,17 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private void play() {
         if (isConnect == true) {
-            if (isUnableToConnect == true) {
+            /*if (isUnableToConnect == true) {*/
                 MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
                         mHandler, null);
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
-                isUnableToConnect = false;
+                /*isUnableToConnect = false;*/
                 /*Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();*/
-            }else {
+            /*}else {
                 exoPlayer.setPlayWhenReady(true);
-                /*Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();*/
-            }
+                *//*Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();*//*
+            }*/
         }
     }
 
@@ -323,7 +323,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         changeControlIconNotification(R.drawable.ic_play);
         exoPlayer.setPlayWhenReady(false);
         if (exoPlayer != null) {
-            isUnableToConnect = true;
+            /*isUnableToConnect = true;*/
         }
     }
 
@@ -353,7 +353,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 }
             } else if(state == TelephonyManager.CALL_STATE_IDLE) {
                 if (!isPlaying() && !incomingNumber.isEmpty()) {
-                    exoPlayer.setPlayWhenReady(true);
+                    play();
                 }
                 /*play*/
             } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
