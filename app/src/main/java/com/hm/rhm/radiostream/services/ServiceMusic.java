@@ -120,7 +120,6 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         } catch (Exception e) {
 
         }
-        setPhoneStateListener();
         return START_STICKY;
     }
 
@@ -264,6 +263,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private void pause() {
         exoPlayer.setPlayWhenReady(false);
+        setUnRegisterPhoneStateListener();
     }
 
     private void play() {
@@ -273,6 +273,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                         mHandler, null);
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
+                setPhoneStateListener();
                 /*isUnableToConnect = false;*/
                 /*Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();*/
             /*}else {
