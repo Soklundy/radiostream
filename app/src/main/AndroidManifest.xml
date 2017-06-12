@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:resizeableActivity="false"
         android:name="com.hm.rhm.radiostream.activity.ApplicationStartUp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

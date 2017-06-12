@@ -287,11 +287,11 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         try {
-            stopSelf();
             notificationmanager.cancel(NOTIFICATION_ID);
         }catch (NullPointerException e) {
 
         }
+        stopSelf();
     }
 
     @Override
