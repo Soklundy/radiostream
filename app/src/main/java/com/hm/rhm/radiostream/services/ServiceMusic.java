@@ -73,6 +73,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         views = new RemoteViews(getPackageName(), R.layout.notification_layout);
         mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         checkInternetConnection();
+        setPhoneStateListener();
     }
 
     @Override
