@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -34,6 +36,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
     public final static String LOCATION = "com.sunvigor.soklundy.uploadradio";
     private String mFilePath;
     private LoadingDialog loadingDialog;
+    private TelephonyManager mTelephonyManager;
 
     // display surface
     private SurfaceView mSurface;
@@ -59,6 +62,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         mSurface = (SurfaceView) findViewById(R.id.surface);
         //holder.addCallback(this);
         new MutiLanguage(this).StartUpCheckLanguage();
+        mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
     }
 
     @Override
@@ -180,6 +184,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
             Media m = new Media(libvlc, Uri.parse(media));
             mMediaPlayer.setMedia(m);
             mMediaPlayer.play();
+            setPhoneStateListener();
         } catch (Exception e) {
             Log.e("show_error", e.toString());
             /*Toast.makeText(this, "Error creating player!", Toast.LENGTH_LONG).show();*/
@@ -213,6 +218,7 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         if (libvlc == null)
             return;
         mMediaPlayer.stop();
+        setUnRegisterPhoneStateListener();
         final IVLCVout vout = mMediaPlayer.getVLCVout();
         vout.removeCallback(this);
         vout.detachViews();
@@ -294,11 +300,41 @@ public class VideoPlayerVLC extends Activity implements IVLCVout.Callback{
         }
     }
 
+    private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.pause();
+                }
+            } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+                if (mMediaPlayer != null && !mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.play();
+                }
+                /*play*/
+            } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                /*Toast.makeText(mContext, "CALL_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();*/
+            }
+            super.onCallStateChanged(state, incomingNumber);
+        }
+    };
 
     @Override
     public void onHardwareAccelerationError(IVLCVout vout) {
         // Handle errors with hardware acceleration
         this.releasePlayer();
         Toast.makeText(this, "Error with hardware acceleration", Toast.LENGTH_LONG).show();
+    }
+
+    private void setPhoneStateListener() {
+        if(mTelephonyManager != null) {
+            mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+    }
+
+    private void setUnRegisterPhoneStateListener() {
+        if(mTelephonyManager != null) {
+            mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 }
