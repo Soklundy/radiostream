@@ -169,6 +169,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 exoPlayer.prepare(mediaSource);
                 exoPlayer.setPlayWhenReady(true);
                 changeTextNIconControlNotification(channelName, R.drawable.ic_pause);
+                setPhoneStateListener();
             }
         }
 
