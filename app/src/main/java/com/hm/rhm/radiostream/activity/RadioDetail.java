@@ -24,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.BlurBuilder;
@@ -206,6 +209,10 @@ public class RadioDetail extends AppCompatActivity{
                 }
 
                 @Override
+                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                }
+
+                @Override
                 public void onPlayerError(ExoPlaybackException error) {
                     try {
                         new AlertDialog.Builder(RadioDetail.this)
@@ -226,6 +233,10 @@ public class RadioDetail extends AppCompatActivity{
                 @Override
                 public void onPositionDiscontinuity() {
 
+                }
+
+                @Override
+                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
                 }
             });
         }

@@ -40,6 +40,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.CheckServices;
@@ -299,8 +302,10 @@ public class MainActivity extends AppCompatActivity
             if (mLocalBind != null) {
                 mLocalBind.exoPlayerPause();
             }
-            Intent intent = new Intent(this, VideoPlayerVLC.class);
-            intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");
+            Intent intent = new Intent(this, VideoExoplayer.class);
+            intent.putExtra("tv_url", "http://111.92.240.134:1934/hm_hdtv/smil:HMHDTV.smil/playlist.m3u8");
+            intent.putExtra("txt_channel", getResources().getString(R.string.hm_tv));
+            /*intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");*/
             startActivity(intent);
 
         }else {
@@ -314,8 +319,10 @@ public class MainActivity extends AppCompatActivity
             if (mLocalBind != null) {
                 mLocalBind.exoPlayerPause();
             }
-            Intent intent = new Intent(this, VideoPlayerVLC.class);
-            intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");
+            Intent intent = new Intent(this, VideoExoplayer.class);
+            intent.putExtra("tv_url", "http://111.92.240.134:1934/rhm_hdtv/smil:RHMHDTV.smil/playlist.m3u8");
+            intent.putExtra("txt_channel", getResources().getString(R.string.rhm_tv));
+            /*intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");*/
             startActivity(intent);
         }else {
             loadingDialog.alert();
@@ -370,6 +377,10 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 @Override
+                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                }
+
+                @Override
                 public void onPlayerError(ExoPlaybackException error) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle(getResources().getString(R.string.can_load))
@@ -386,6 +397,10 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onPositionDiscontinuity() {
 
+                }
+
+                @Override
+                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
                 }
             });
         }

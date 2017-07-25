@@ -33,7 +33,9 @@ public class LoadingDialog {
     }
 
     public void closeLoad() {
-        dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     public void alertMessage(String s) {

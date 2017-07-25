@@ -16,6 +16,12 @@ import android.telephony.TelephonyManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.activity.MainActivity;
 import com.hm.rhm.radiostream.utils.Constants;
@@ -47,6 +53,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
+    private static final DefaultBandwidthMeter sBandWidthMeter = new DefaultBandwidthMeter();
     private RemoteViews views;
     private boolean isConnect;
     private Uri uri;
@@ -207,7 +214,8 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         if (!isPlaying()) {
             MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
                     mHandler, null);
-            TrackSelector trackSelector = new DefaultTrackSelector(mHandler);
+            TrackSelection.Factory mTFactory = new AdaptiveTrackSelection.Factory(sBandWidthMeter);
+            TrackSelector trackSelector = new DefaultTrackSelector(mTFactory);
             DefaultLoadControl loadControl = new DefaultLoadControl();
             exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
             exoPlayer.prepare(mediaSource);
@@ -320,6 +328,10 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     }
 
     @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+    }
+
+    @Override
     public void onPlayerError(ExoPlaybackException error) {
         /*Toast.makeText(mContext, "error_onservice_unable to connect", Toast.LENGTH_SHORT).show();*/
         changeControlIconNotification(R.drawable.ic_play);
@@ -332,6 +344,10 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     @Override
     public void onPositionDiscontinuity() {
 
+    }
+
+    @Override
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
     }
 
     private void checkInternetConnection() {

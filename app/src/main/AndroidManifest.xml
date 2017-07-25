@@ -54,7 +54,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="com.hm.rhm.radiostream.activity.VideoPlayerVLC"
+            android:configChanges="orientation|screenSize"
+            android:name="com.hm.rhm.radiostream.activity.VideoExoplayer"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity android:name="com.hm.rhm.radiostream.activity.SplashScreen"
