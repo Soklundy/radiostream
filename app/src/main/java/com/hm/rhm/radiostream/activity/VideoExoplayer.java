@@ -12,6 +12,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -122,14 +123,17 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
+        Toast.makeText(this, "onTimelineChanged", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+        Toast.makeText(this, "onTracksChanged", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
+        Toast.makeText(this, "onLoadingChanged", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -154,14 +158,18 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
+        releasePlayer();
+        initPlayer();
     }
 
     @Override
     public void onPositionDiscontinuity() {
+        Toast.makeText(this, "onPositionDiscontinuity", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+        Toast.makeText(this, "onPlaybackParametersChanged", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -175,22 +183,27 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
 
     @Override
     public void onLoadCompleted(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
+        Toast.makeText(this, "onLoadCompleted", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLoadCanceled(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
+        Toast.makeText(this, "onLoadCanceled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLoadError(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded, IOException error, boolean wasCanceled) {
+        Toast.makeText(this, "onLoadError", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpstreamDiscarded(int trackType, long mediaStartTimeMs, long mediaEndTimeMs) {
+        Toast.makeText(this, "onUpstreamDiscarded", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDownstreamFormatChanged(int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaTimeMs) {
+        Toast.makeText(this, "onDownstreamFormatChanged", Toast.LENGTH_SHORT).show();
     }
 
     private void initPlayer() {
