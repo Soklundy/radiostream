@@ -103,6 +103,15 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    static {
+        System.loadLibrary("keys");
+    }
+
+    public native String getHmTv();
+    public native String getRhmTv();
+    public native String getRhmRadio();
+    public native String getHmRadio();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,7 +241,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 channelName = txtHm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_104);
-                url = "http://111.92.240.134:89/broadwavehigh.mp3";
+                url = getHmRadio();
                 hmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icHm.setImageResource(R.drawable.ic_headphone_white);
@@ -251,7 +260,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 channelName = txtRhm.getText().toString();
                 icPlayerBar.setImageResource(R.drawable.ic_95);
-                url = "http://111.92.240.134:90/broadwavehigh.mp3";
+                url = getRhmRadio();
                 rhmRadio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icRhm.setImageResource(R.drawable.ic_headphone_white);
@@ -303,9 +312,8 @@ public class MainActivity extends AppCompatActivity
                 mLocalBind.exoPlayerPause();
             }
             Intent intent = new Intent(this, VideoExoplayer.class);
-            intent.putExtra("tv_url", "http://111.92.240.134:1934/hm_hdtv/smil:HMHDTV.smil/playlist.m3u8");
+            intent.putExtra("tv_url", getHmTv());
             intent.putExtra("txt_channel", getResources().getString(R.string.hm_tv));
-            /*intent.putExtra("tv_url", "rtmp://111.92.240.134:1935/live/livestream");*/
             startActivity(intent);
 
         }else {
@@ -320,9 +328,8 @@ public class MainActivity extends AppCompatActivity
                 mLocalBind.exoPlayerPause();
             }
             Intent intent = new Intent(this, VideoExoplayer.class);
-            intent.putExtra("tv_url", "http://111.92.240.134:1934/rhm_hdtv/smil:RHMHDTV.smil/playlist.m3u8");
+            intent.putExtra("tv_url", getRhmTv());
             intent.putExtra("txt_channel", getResources().getString(R.string.rhm_tv));
-            /*intent.putExtra("tv_url", "rtmp://111.92.240.134:80/live/livestream");*/
             startActivity(intent);
         }else {
             loadingDialog.alert();
