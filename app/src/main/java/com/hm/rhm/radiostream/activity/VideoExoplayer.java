@@ -3,23 +3,23 @@ package com.hm.rhm.radiostream.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.AdaptiveMediaSourceEventListener;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -29,19 +29,17 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.hm.rhm.radiostream.utils.MutiLanguage;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +51,7 @@ import butterknife.ButterKnife;
 public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.EventListener, AdaptiveMediaSourceEventListener {
 
     @BindView(R.id.simple_exoplayer)
-    SimpleExoPlayerView mSimpleExoPlayerView;
+    PlayerView mPlayerView;
 
     @BindView(R.id.activity_main_txt_resolu)
     TextView mResolution;
@@ -119,11 +117,12 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
     }
 
     @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+    public void onDownstreamFormatChanged(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
+        if (mediaLoadData.trackFormat.height >= HD) {
+            mResolution.setText("HD");
+        } else {
+            mResolution.setText(mediaLoadData.trackFormat.height + "");
+        }
     }
 
     @Override
@@ -157,41 +156,17 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
     }
 
     @Override
-    public void onPositionDiscontinuity() {
-    }
-
-    @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
     }
 
-    @Override
+    /*@Override
     public void onLoadStarted(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs) {
         if (trackFormat.height >= HD) {
             mResolution.setText("HD");
         } else {
             mResolution.setText(trackFormat.height + "");
         }
-    }
-
-    @Override
-    public void onLoadCompleted(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
-    }
-
-    @Override
-    public void onLoadCanceled(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
-    }
-
-    @Override
-    public void onLoadError(DataSpec dataSpec, int dataType, int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded, IOException error, boolean wasCanceled) {
-    }
-
-    @Override
-    public void onUpstreamDiscarded(int trackType, long mediaStartTimeMs, long mediaEndTimeMs) {
-    }
-
-    @Override
-    public void onDownstreamFormatChanged(int trackType, Format trackFormat, int trackSelectionReason, Object trackSelectionData, long mediaTimeMs) {
-    }
+    }*/
 
     private void initPlayer() {
         // 1. Create a default TrackSelector
@@ -203,13 +178,14 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
         mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
         mSimpleExoPlayer.getCurrentWindowIndex();
         mSimpleExoPlayer.getCurrentPosition();
-        mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
+        mPlayerView.setPlayer(mSimpleExoPlayer);
         DataSource.Factory dataSourceFactory = buildDataSourceFactory(sBandWidthMeter);
         // This is the MediaSource representing the media to be played.
         Uri uri = Uri.parse(getIntent().getStringExtra("tv_url"));
-        mLive.setText("Live Broacast • " + getIntent().getStringExtra("txt_channel") + " • Quality • ");
-        MediaSource mMediaSource = new HlsMediaSource(uri, dataSourceFactory, mainHandler, this);
-        mSimpleExoPlayer.prepare(mMediaSource);
+        /*MediaSource mMediaSource = new HlsMediaSource(uri, dataSourceFactory, mainHandler, this);*/
+        HlsMediaSource hlsMediaSource =
+                new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri, mainHandler, this);
+        mSimpleExoPlayer.prepare(hlsMediaSource);
         mSimpleExoPlayer.addListener(this);
         mSimpleExoPlayer.setPlayWhenReady(true);
         setUnRegisterPhoneStateListener();
@@ -231,7 +207,8 @@ public class VideoExoplayer extends AppCompatActivity implements ExoPlayer.Event
      * @return HttpDataSource.Factory
      */
     private HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-        return new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "Exoplayer"), bandwidthMeter);
+        return new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "exoplayer2"), bandwidthMeter, DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
+                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true);
     }
 
     private boolean isPlaying() {

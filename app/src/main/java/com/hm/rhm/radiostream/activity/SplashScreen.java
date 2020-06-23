@@ -2,15 +2,13 @@ package com.hm.rhm.radiostream.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.hm.rhm.radiostream.R;
-import com.hm.rhm.radiostream.utils.SharedPreferencesFile;
 
 public class SplashScreen extends Activity {
 

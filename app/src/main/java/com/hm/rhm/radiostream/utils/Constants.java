@@ -3,7 +3,6 @@ package com.hm.rhm.radiostream.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.SeekBar;
 
 /**
  * Created by soklundy on 5/7/2017.

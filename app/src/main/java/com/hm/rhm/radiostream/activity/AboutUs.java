@@ -1,9 +1,10 @@
 package com.hm.rhm.radiostream.activity;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.hm.rhm.radiostream.R;
 

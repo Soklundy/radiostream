@@ -7,6 +7,7 @@
 
     <application
         android:resizeableActivity="false"
+        android:usesCleartextTraffic="true"
         android:name="com.hm.rhm.radiostream.activity.ApplicationStartUp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

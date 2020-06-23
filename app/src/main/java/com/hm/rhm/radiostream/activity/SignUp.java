@@ -2,7 +2,6 @@ package com.hm.rhm.radiostream.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -10,15 +9,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hm.rhm.radiostream.R;
-import com.hm.rhm.radiostream.utils.API;
-import com.hm.rhm.radiostream.utils.LoadingDialog;
-import com.hm.rhm.radiostream.utils.MySingleton;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.hm.rhm.radiostream.R;
+import com.hm.rhm.radiostream.utils.API;
+import com.hm.rhm.radiostream.utils.LoadingDialog;
+import com.hm.rhm.radiostream.utils.MySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;

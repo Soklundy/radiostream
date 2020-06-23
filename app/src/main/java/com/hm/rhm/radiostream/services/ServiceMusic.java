@@ -1,6 +1,7 @@
 package com.hm.rhm.radiostream.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,39 +9,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.hm.rhm.radiostream.R;
-import com.hm.rhm.radiostream.activity.MainActivity;
-import com.hm.rhm.radiostream.utils.Constants;
-import com.hm.rhm.radiostream.utils.LoadingDialog;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.mp3.Mp3Extractor;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.hm.rhm.radiostream.utils.SharedPreferencesFile;
+import com.hm.rhm.radiostream.R;
+import com.hm.rhm.radiostream.activity.MainActivity;
+import com.hm.rhm.radiostream.utils.Constants;
+import com.hm.rhm.radiostream.utils.LoadingDialog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -50,15 +54,15 @@ import io.reactivex.schedulers.Schedulers;
  * Created by soklundy on 5/6/2017.
  */
 
-public class ServiceMusic extends Service implements ExoPlayer.EventListener{
+public class ServiceMusic extends Service implements ExoPlayer.EventListener {
 
     private static final String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0";
     private static final DefaultBandwidthMeter sBandWidthMeter = new DefaultBandwidthMeter();
     private RemoteViews views;
     private boolean isConnect;
     private Uri uri;
-    private Notification status;
-    private static  final int NOTIFICATION_ID = 100;
+    private NotificationCompat.Builder status;
+    private static final int NOTIFICATION_ID = 100;
     private LoadingDialog loadingDialog;
     private NotificationManager notificationmanager;
     private Handler mHandler = new Handler();
@@ -83,6 +87,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         setPhoneStateListener();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
@@ -98,7 +103,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 if (isPlaying()) {
                     pause();
                     changeControlIconNotification(R.drawable.ic_play);
-                }else {
+                } else {
                     play();
                     if (isConnect == true) {
                         changeControlIconNotification(R.drawable.ic_pause);
@@ -118,7 +123,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 sendBroadcast(new Intent("key_close"));
                 closeStatusBar();
 
-            }else if (intent.getAction().equals(Constants.INTENTSHOW)) {
+            } else if (intent.getAction().equals(Constants.INTENTSHOW)) {
                 Toast.makeText(mContext, "INTENTSHOW", Toast.LENGTH_SHORT).show();
                 Intent dialogIntent = new Intent(this, MainActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -133,8 +138,8 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
 
     private void changeControlIconNotification(int resourceId) {
         views.setImageViewResource(R.id.ic_image, resourceId);
-        status.contentView = views;
-        notificationmanager.notify(NOTIFICATION_ID, status);
+        status.setContent(views);
+        notificationmanager.notify(NOTIFICATION_ID, status.build());
     }
 
     private void changeTextNIconControlNotification(String text, int resourceId) {
@@ -142,11 +147,11 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         views.setImageViewResource(R.id.ic_image, resourceId);
         if (text.contains("95")) {
             views.setImageViewResource(R.id.img_logo, R.drawable.ic_97);
-        }else {
+        } else {
             views.setImageViewResource(R.id.img_logo, R.drawable.ic_104);
         }
-        status.contentView = views;
-        notificationmanager.notify(NOTIFICATION_ID, status);
+        status.setContent(views);
+        notificationmanager.notify(NOTIFICATION_ID, status.build());
     }
 
     @Override
@@ -189,7 +194,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         }
 
         public void exoPlayerPlay() {
-            if (isPlaying() == false){
+            if (isPlaying() == false) {
                 play();
             }
         }
@@ -224,10 +229,16 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title) {
         // showing default album image
-        /*views.setImageViewBitmap(R.id.status_bar_album_art,
-                Constants.getDefaultAlbumArt(this));*/
+        CharSequence name = getString(R.string.app_name);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel mChannel = new NotificationChannel("my_channel", name, importance);
+        mChannel.setVibrationPattern(new long[]{ 0 });
+        mChannel.enableVibration(true);
+        mChannel.canShowBadge();
+        mChannel.setShowBadge(true);
 
         Intent notificationIntent = new Intent(this, ServiceMusic.class);
         notificationIntent.setAction(Constants.INTENTSHOW);
@@ -252,18 +263,19 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         views.setImageViewResource(R.id.ic_image, R.drawable.ic_pause);
         if (title.contains("95")) {
             views.setImageViewResource(R.id.img_logo, R.drawable.ic_97);
-        }else {
+        } else {
             views.setImageViewResource(R.id.img_logo, R.drawable.ic_104);
         }
 
-        status = new Notification.Builder(this).build();
-        status.contentView = views;
-        status.flags = Notification.FLAG_ONGOING_EVENT;
-        status.priority = Notification.PRIORITY_MIN;
-        status.icon = R.drawable.cricle_hm;
-        status.contentIntent = pendingIntent;
+        status = new NotificationCompat.Builder(this, "my_channel");
+        status.setCustomContentView(views);
+        status.setOngoing(true);
+        status.setSmallIcon(R.drawable.cricle_hm);
+        status.setContentIntent(pendingIntent);
+
         notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationmanager.notify(NOTIFICATION_ID, status);
+        notificationmanager.createNotificationChannel(mChannel);
+        notificationmanager.notify(NOTIFICATION_ID, status.build());
     }
 
     private void closeStatusBar() {
@@ -279,13 +291,13 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     private void play() {
         if (isConnect == true) {
             /*if (isUnableToConnect == true) {*/
-                MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
-                        mHandler, null);
-                exoPlayer.prepare(mediaSource);
-                exoPlayer.setPlayWhenReady(true);
-                setPhoneStateListener();
-                /*isUnableToConnect = false;*/
-                /*Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();*/
+            MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, Mp3Extractor.FACTORY,
+                    mHandler, null);
+            exoPlayer.prepare(mediaSource);
+            exoPlayer.setPlayWhenReady(true);
+            setPhoneStateListener();
+            /*isUnableToConnect = false;*/
+            /*Toast.makeText(mContext, "play service unable to con", Toast.LENGTH_SHORT).show();*/
             /*}else {
                 exoPlayer.setPlayWhenReady(true);
                 *//*Toast.makeText(mContext, "play service not unable to con", Toast.LENGTH_SHORT).show();*//*
@@ -298,7 +310,7 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         super.onTaskRemoved(rootIntent);
         try {
             notificationmanager.cancel(NOTIFICATION_ID);
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
 
         }
         stopSelf();
@@ -314,16 +326,26 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
         try {
             if (playWhenReady == true) {
                 changeControlIconNotification(R.drawable.ic_pause);
-            }else {
+            } else {
                 changeControlIconNotification(R.drawable.ic_play);
             }
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
 
         }
     }
 
     @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
+    public void onRepeatModeChanged(int repeatMode) {
+
+    }
+
+    @Override
+    public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
 
     }
 
@@ -342,12 +364,17 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     }
 
     @Override
-    public void onPositionDiscontinuity() {
+    public void onPositionDiscontinuity(int reason) {
 
     }
 
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+    }
+
+    @Override
+    public void onSeekProcessed() {
+
     }
 
     private void checkInternetConnection() {
@@ -369,12 +396,12 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
                 if (isPlaying()) {
                     exoPlayer.setPlayWhenReady(false);
                 }
-            } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+            } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                 if (!isPlaying() && !incomingNumber.isEmpty()) {
                     play();
                 }
                 /*play*/
-            } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+            } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
                 Toast.makeText(mContext, "CALL_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();
             }
             super.onCallStateChanged(state, incomingNumber);
@@ -382,13 +409,13 @@ public class ServiceMusic extends Service implements ExoPlayer.EventListener{
     };
 
     private void setPhoneStateListener() {
-        if(mTelephonyManager != null) {
+        if (mTelephonyManager != null) {
             mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
     }
 
     private void setUnRegisterPhoneStateListener() {
-        if(mTelephonyManager != null) {
+        if (mTelephonyManager != null) {
             mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         }
     }

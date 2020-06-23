@@ -10,21 +10,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -38,22 +28,31 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.material.navigation.NavigationView;
 import com.hm.rhm.radiostream.R;
 import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.CheckServices;
 import com.hm.rhm.radiostream.utils.Constants;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
 import com.hm.rhm.radiostream.utils.MutiLanguage;
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.hm.rhm.radiostream.utils.SharedPreferencesFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,24 +74,40 @@ public class MainActivity extends AppCompatActivity
     private AnimationDrawable animation;
     private boolean isPlayerStart;
 
-    @BindView(R.id.hm_tv) LinearLayout hmTv;
-    @BindView(R.id.rhm_tv) LinearLayout rhmTv;
-    @BindView(R.id.hm_radio) LinearLayout hmRadio;
-    @BindView(R.id.rhm_radio) LinearLayout rhmRadio;
-    @BindView(R.id.player_bar) LinearLayout playerbar;
+    @BindView(R.id.hm_tv)
+    LinearLayout hmTv;
+    @BindView(R.id.rhm_tv)
+    LinearLayout rhmTv;
+    @BindView(R.id.hm_radio)
+    LinearLayout hmRadio;
+    @BindView(R.id.rhm_radio)
+    LinearLayout rhmRadio;
+    @BindView(R.id.player_bar)
+    LinearLayout playerbar;
 
-    @BindView(R.id.txt_hm) TextView txtHm;
-    @BindView(R.id.txt_rhm_tv) TextView txtRhmTv;
-    @BindView(R.id.txt_rhm) TextView txtRhm;
-    @BindView(R.id.txt_hm_tv) TextView txtHmTv;
-    @BindView(R.id.txt_playerbar) TextView txtPlayerBar;
+    @BindView(R.id.txt_hm)
+    TextView txtHm;
+    @BindView(R.id.txt_rhm_tv)
+    TextView txtRhmTv;
+    @BindView(R.id.txt_rhm)
+    TextView txtRhm;
+    @BindView(R.id.txt_hm_tv)
+    TextView txtHmTv;
+    @BindView(R.id.txt_playerbar)
+    TextView txtPlayerBar;
 
-    @BindView(R.id.ic_rhm) ImageView icRhm;
-    @BindView(R.id.ic_hm) ImageView icHm;
-    @BindView(R.id.ic_hm_tv) ImageView icHmTv;
-    @BindView(R.id.ic_rhm_tv) ImageView icRhmTv;
-    @BindView(R.id.ic_playerbar) ImageView icPlayerBar;
-    @BindView(R.id.ic_audio) ImageView imgAudio;
+    @BindView(R.id.ic_rhm)
+    ImageView icRhm;
+    @BindView(R.id.ic_hm)
+    ImageView icHm;
+    @BindView(R.id.ic_hm_tv)
+    ImageView icHmTv;
+    @BindView(R.id.ic_rhm_tv)
+    ImageView icRhmTv;
+    @BindView(R.id.ic_playerbar)
+    ImageView icPlayerBar;
+    @BindView(R.id.ic_audio)
+    ImageView imgAudio;
 
     private LoadingDialog loadingDialog;
 
@@ -108,13 +123,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     public native String getHmTv();
+
     public native String getRhmTv();
+
     public native String getRhmRadio();
+
     public native String getHmRadio();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -180,13 +199,13 @@ public class MainActivity extends AppCompatActivity
                                 }
                             })
                             .show();
-                }else {
+                } else {
                     alertDiolag(this);
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 alertDiolag(this);
             }
-        }else if (id == R.id.nav_contact){
+        } else if (id == R.id.nav_contact) {
             startActivity(new Intent(MainActivity.this, ContactUS.class));
         }
 
@@ -198,8 +217,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int id = v.getId();
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            switch (id){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            switch (id) {
                 case R.id.hm_tv:
                     hmTv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     txtHmTv.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -212,7 +231,7 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            switch (id){
+            switch (id) {
                 case R.id.hm_tv:
                     hmTv.setBackgroundColor(getResources().getColor(R.color.transparent));
                     txtHmTv.setTextColor(getResources().getColor(R.color.defult_textview));
@@ -246,7 +265,7 @@ public class MainActivity extends AppCompatActivity
                 txtHm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icHm.setImageResource(R.drawable.ic_headphone_white);
 
-                    /*un hightlight hm*/
+                /*un hightlight hm*/
                 rhmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
                 txtRhm.setTextColor(getResources().getColor(R.color.defult_textview));
                 icRhm.setImageResource(R.drawable.ic_headphone_org);
@@ -265,7 +284,7 @@ public class MainActivity extends AppCompatActivity
                 txtRhm.setTextColor(getResources().getColor(R.color.colorPrimary));
                 icRhm.setImageResource(R.drawable.ic_headphone_white);
 
-                    /*un hightlight hm*/
+                /*un hightlight hm*/
                 hmRadio.setBackgroundColor(getResources().getColor(R.color.transparent));
                 txtHm.setTextColor(getResources().getColor(R.color.defult_textview));
                 icHm.setImageResource(R.drawable.ic_headphone_org);
@@ -284,7 +303,7 @@ public class MainActivity extends AppCompatActivity
                 mLocalBind.playFm(url, channelName);
                 Log.e("test_service", "mlocalBind!=null_work");
             }
-        }else {
+        } else {
             loadingDialog.alert(new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -316,7 +335,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("txt_channel", getResources().getString(R.string.hm_tv));
             startActivity(intent);
 
-        }else {
+        } else {
             loadingDialog.alert();
         }
     }
@@ -331,7 +350,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("tv_url", getRhmTv());
             intent.putExtra("txt_channel", getResources().getString(R.string.rhm_tv));
             startActivity(intent);
-        }else {
+        } else {
             loadingDialog.alert();
         }
     }
@@ -339,7 +358,7 @@ public class MainActivity extends AppCompatActivity
     private void hideShowStatusBar(String channelName) {
         txtPlayerBar.setText(channelName);
         playerbar.setVisibility(View.VISIBLE);
-        if (playerbar.getVisibility() == View.INVISIBLE){
+        if (playerbar.getVisibility() == View.INVISIBLE) {
             playerbar.setAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up));
         }
     }
@@ -379,7 +398,17 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 @Override
-                public void onTimelineChanged(Timeline timeline, Object manifest) {
+                public void onRepeatModeChanged(int repeatMode) {
+
+                }
+
+                @Override
+                public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+                }
+
+                @Override
+                public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
 
                 }
 
@@ -402,12 +431,17 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 @Override
-                public void onPositionDiscontinuity() {
+                public void onPositionDiscontinuity(int reason) {
 
                 }
 
                 @Override
                 public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+                }
+
+                @Override
+                public void onSeekProcessed() {
+
                 }
             });
         }
@@ -425,6 +459,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("player_status", isPlayerStart);
         startActivity(intent);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -436,7 +471,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode) {
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 moveTaskToBack(true);
                 return true;
@@ -444,14 +479,14 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    private  void checkAndRequestPermissions() {
-        String [] permissions=new String[]{
+    private void checkAndRequestPermissions() {
+        String[] permissions = new String[]{
                 Manifest.permission.INTERNET,
                 Manifest.permission.READ_PHONE_STATE
         };
         List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String permission:permissions) {
-            if (ContextCompat.checkSelfPermission(this,permission )!= PackageManager.PERMISSION_GRANTED){
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(permission);
             }
         }
@@ -473,7 +508,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void alertDiolag(Context context){
+    private void alertDiolag(Context context) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.alert_background));
@@ -481,16 +516,16 @@ public class MainActivity extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.alert_dialog_activity_choose_lan);
 
-        RadioButton radioBtnEn = (RadioButton)dialog.findViewById(R.id.radio_english);
-        RadioButton radioBtnKm = (RadioButton)dialog.findViewById(R.id.radio_khmer);
-        RadioGroup radioGroup = (RadioGroup)dialog.findViewById(R.id.radio_group);
+        RadioButton radioBtnEn = (RadioButton) dialog.findViewById(R.id.radio_english);
+        RadioButton radioBtnKm = (RadioButton) dialog.findViewById(R.id.radio_khmer);
+        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
 
         final MutiLanguage mutiLanguage = new MutiLanguage(this, this);
         String lang = mutiLanguage.getLanguageCurrent();
 
         if (lang.equals("km") || lang.isEmpty()) {
             radioBtnKm.setChecked(true);
-        }else {
+        } else {
             radioBtnEn.setChecked(true);
         }
 
@@ -501,7 +536,7 @@ public class MainActivity extends AppCompatActivity
                     mutiLanguage.setLanguage("en");
                     restartDefultForChangeLang();
                     dialog.dismiss();
-                }else {
+                } else {
                     mutiLanguage.setLanguage("km");
                     restartDefultForChangeLang();
                     dialog.dismiss();
@@ -518,7 +553,7 @@ public class MainActivity extends AppCompatActivity
         try {
             stopService(new Intent(MainActivity.this, ServiceMusic.class));
             mLocalBind.dismissNotification();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
         }
     }

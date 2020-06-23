@@ -13,18 +13,21 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.hm.rhm.radiostream.R;
@@ -32,9 +35,6 @@ import com.hm.rhm.radiostream.services.ServiceMusic;
 import com.hm.rhm.radiostream.utils.BlurBuilder;
 import com.hm.rhm.radiostream.utils.Constants;
 import com.hm.rhm.radiostream.utils.LoadingDialog;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -204,7 +204,17 @@ public class RadioDetail extends AppCompatActivity{
                 }
 
                 @Override
-                public void onTimelineChanged(Timeline timeline, Object manifest) {
+                public void onRepeatModeChanged(int repeatMode) {
+
+                }
+
+                @Override
+                public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+                }
+
+                @Override
+                public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
 
                 }
 
@@ -231,12 +241,17 @@ public class RadioDetail extends AppCompatActivity{
                 }
 
                 @Override
-                public void onPositionDiscontinuity() {
+                public void onPositionDiscontinuity(int reason) {
 
                 }
 
                 @Override
                 public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+                }
+
+                @Override
+                public void onSeekProcessed() {
+
                 }
             });
         }
