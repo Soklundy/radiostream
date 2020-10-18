@@ -143,13 +143,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tv_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            checkAndRequestPermissions();
-        }
         checkInternetConnection();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -486,22 +482,6 @@ public class MainActivity extends AppCompatActivity
                 return true;
         }
         return false;
-    }
-
-    private void checkAndRequestPermissions() {
-        String[] permissions = new String[]{
-                Manifest.permission.INTERNET,
-                Manifest.permission.READ_PHONE_STATE
-        };
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(permission);
-            }
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1);
-        }
     }
 
     @Override

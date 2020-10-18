@@ -89,26 +89,40 @@
         <activity
             android:name="com.hm.rhm.radiostream.activity.tvActivity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="landscape"
             android:launchMode="singleTask"
             android:theme="@style/ThemeMainScreen"/>
 
         <activity
-            android:name="com.hm.rhm.radiostream.activity.tvActivity.RadioDetail"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name="com.hm.rhm.radiostream.activity.tvActivity.ContactUS"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
-            android:name="com.hm.rhm.radiostream.activity.tvActivity.ContactUS"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity
             android:name="com.hm.rhm.radiostream.activity.tvActivity.AboutUs"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
     </application>
 
     <uses-feature android:name="android.software.leanback"
         android:required="false" />
-
+®
     <uses-feature android:name="android.hardware.touchscreen"
-        android:required="false" />
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.faketouch"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.nfc"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.microphone"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.sensor"
+        android:required="false"/>
 
 </manifest>

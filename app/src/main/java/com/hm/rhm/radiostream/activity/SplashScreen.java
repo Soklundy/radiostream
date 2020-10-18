@@ -1,7 +1,10 @@
 package com.hm.rhm.radiostream.activity;
 
 import android.app.Activity;
+import android.app.UiModeManager;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -16,19 +19,36 @@ public class SplashScreen extends Activity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        if (isTvDevice()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         startAnimations();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                SplashScreen.this.startActivity(intent);
-                finish();
+        new Handler().postDelayed(() -> {
+            Intent intent;
+            if (isTvDevice()) {
+                intent = new Intent(SplashScreen.this, com.hm.rhm.radiostream.activity.tvActivity.MainActivity.class);
+            } else {
+                intent = new Intent(SplashScreen.this, MainActivity.class);
+
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            SplashScreen.this.startActivity(intent);
+            finish();
+
         }, SPLASH_DISPLAY_LENGTH);
 
+    }
+
+    private boolean isTvDevice() {
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+            return true;
+        }
+        return false;
     }
 
     private void checkFrist() {
